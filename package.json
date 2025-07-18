@@ -1,0 +1,14 @@
+{
+  "name": "jm-eletrica-backend",
+  "version": "1.0.0",
+  "description": "Proxy para a API Gemini para o site JM Elétrica",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

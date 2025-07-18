@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JM Elétrica | Soluções Industriais e Residenciais</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Feather Icons for UI -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <!-- Swiper.js for Carousels -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Lightbox2 for Image Viewer -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+
+
+  <style>
+    /* Custom styles for the project */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111827; /* bg-gray-900 */
+      color: #F3F4F6; /* text-gray-100 */
+    }
+    .text-glow {
+      text-shadow: 0 0 8px rgba(250, 204, 21, 0.5), 0 0 20px rgba(250, 204, 21, 0.3);
+    }
+    /* Animation for elements fading in on scroll */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Custom Swiper Styles */
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #FBBF24; /* text-amber-400 */
+      transform: scale(0.8);
+    }
+    .swiper-pagination-bullet-active {
+      background: #FBBF24; /* text-amber-400 */
+    }
+    .swiper-slide {
+      height: auto;
+    }
+    /* Styles for partner logos */
+    .logo-container {
+        height: 104px; /* Increased size by 30% from 80px */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .partner-logo {
+      transition: transform 0.3s ease-in-out;
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .partner-logo:hover {
+      transform: scale(1.1);
+    }
+    /* Lightbox Customizations */
+    .lightbox .lb-dataContainer {
+        background-color: #1f2937; /* bg-gray-800 */
+    }
+    .lightbox .lb-caption, .lightbox .lb-number {
+        color: #d1d5db; /* text-gray-300 */
+    }
+    /* AI Diagnostic Tool Styles */
+    .loader {
+      border: 4px solid #f3f3f3; /* Light grey */
+      border-top: 4px solid #facc15; /* Yellow */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+
+  <!-- ======================================================= -->
+  <!-- Header Section                                          -->
+  <!-- ======================================================= -->
+  <header id="header" class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-yellow-500/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+          <a href="#" class="text-4xl font-bold text-yellow-400">
+            JM Elétrica
+          </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex space-x-8">
+          <a href="#servicos" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Serviços</a>
+          <a href="#galeria" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Galeria</a>
+          <a href="#assistencia" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Assistência</a>
+          <a href="#diagnostico-ia" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Diagnóstico IA</a>
+          <a href="#contato" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Contato</a>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+            <span class="sr-only">Abrir menu</span>
+            <i data-feather="menu" class="h-6 w-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu, hidden by default -->
+    <div id="mobile-menu" class="md:hidden hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#servicos" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Serviços</a>
+        <a href="#galeria" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Galeria</a>
+        <a href="#assistencia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Assistência</a>
+        <a href="#diagnostico-ia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Diagnóstico IA</a>
+        <a href="#contato" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Contato</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================= -->
+  <!-- Main Content                                            -->
+  <!-- ======================================================= -->
+  <main>
+    <!-- Hero Section -->
+    <section class="relative text-center py-24 sm:py-32 px-4 bg-gray-900">
+      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="relative max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 text-glow">
+          Soluções Elétricas <span class="text-yellow-400">Industriais e Residenciais</span>
+        </h1>
+        <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+          Atendimento técnico completo: manutenção, montagem, instalação e automação.
+        </p>
+        <a href="https://wa.me/5582994267368" target="_blank" class="bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-300 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-yellow-500/20">
+          Fale Conosco pelo WhatsApp
+        </a>
+      </div>
+    </section>
+
+    <!-- Services Section with Carousel -->
+    <section id="servicos" class="py-20 sm:py-28 bg-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center fade-in-section">
+          <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Nossos Serviços</h2>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Navegue por nossas especialidades e veja como podemos ajudar.</p>
+        </div>
+
+        <div class="mt-16 fade-in-section">
+          <div class="swiper service-carousel">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="tool" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Quadros e Instalações</h3><p class="text-gray-400 flex-grow">Montagem, modernização e manutenção de quadros de distribuição e infraestrutura elétrica.</p></div>
+              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="cpu" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Automação e Pontes Rolantes</h3><p class="text-gray-400 flex-grow">Manutenção completa em pontes rolantes, reparo e configuração de inversores e IHMs.</p></div>
+              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="refresh-cw" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Rebobinamento de Motores</h3><p class="text-gray-400 flex-grow">Serviço especializado de rebobinamento para todos os tipos de motores elétricos.</p></div>
+              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="battery-charging" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Manutenção de Carregadores</h3><p class="text-gray-400 flex-grow">Reparo e manutenção em carregadores de bateria de todos os modelos.</p></div>
+              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="zap" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Equipamentos e Geradores</h3><p class="text-gray-400 flex-grow">Manutenção em máquinas de solda, compressores de ar e sistemas elétricos de geradores.</p></div>
+            </div>
+            <div class="swiper-pagination mt-8 relative"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galeria" class="py-20 sm:py-28 bg-gray-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center fade-in-section">
+          <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Galeria</h2>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Clique nas imagens para ampliar e ver mais detalhes do nosso trabalho.</p>
+        </div>
+        
+        <div class="mt-20 fade-in-section">
+          <h3 class="text-2xl font-bold text-yellow-300 mb-6 text-center">Manutenção de Equipamentos</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <a href="/galeria/esab.jpeg" data-lightbox="equipamentos" data-title="Manutenção de Soldadoras"><img src="/galeria/esab.jpeg" alt="Manutenção em máquina de solda" class="w-full h-72 object-cover rounded-lg cursor-pointer transform hover:scale-105 transition-transform duration-300"></a>
+            <a href="/galeria/solda-transformador.jpeg" data-lightbox="equipamentos" data-title="Reparo em Inversores de Solda"><img src="/galeria/solda-transformador.jpeg" alt="Manutenção em máquina de solda" class="w-full h-72 object-cover rounded-lg cursor-pointer transform hover:scale-105 transition-transform duration-300"></a>
+            <a href="/galeria/motor.jpeg" data-lightbox="equipamentos" data-title="Rebobinamento de Motores"><img src="/galeria/motor.jpeg" alt="Motor industrial" class="w-full h-72 object-cover rounded-lg cursor-pointer transform hover:scale-105 transition-transform duration-300"></a>
+            <a href="/galeria/placa.jpeg" data-lightbox="equipamentos" data-title="Manutenção de inversoras de solda"><img src="/galeria/placa.jpeg" alt="Inversora de solda" class="w-full h-72 object-cover rounded-lg cursor-pointer transform hover:scale-105 transition-transform duration-300"></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Authorized Service Section -->
+    <section id="assistencia" class="py-20 sm:py-28 bg-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center fade-in-section">
+          <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Assistência Técnica Autorizada</h2>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto mb-16">Somos assistência técnica autorizada das melhores marcas do mercado.</p>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-x-8 gap-y-12 items-center fade-in-section">
+          <div class="logo-container"><img src="/galeria/balmer.png" alt="Logo Balmer" class="partner-logo"></div>
+          <div class="logo-container"><img src="/galeria/vonder.png" alt="Logo Vonder" class="partner-logo"></div>
+          <div class="logo-container"><img src="/galeria/dewalt.png" alt="Logo DeWalt" class="partner-logo"></div>
+          <div class="logo-container"><img src="/galeria/blackdecker.svg" alt="Logo Black & Decker" class="partner-logo"></div>
+          <div class="logo-container"></div>
+          <div class="logo-container"><img src="/galeria/jlw.png" alt="Logo JLW" class="partner-logo"></div>
+          <div class="logo-container"><img src="/galeria/bambozzi.png" alt="Logo Bambozzi" class="partner-logo"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Diagnostic Tool Section -->
+    <section id="diagnostico-ia" class="py-20 sm:py-28 bg-gray-900">
+      <div class="max-w-4xl mx-auto text-center px-4 fade-in-section">
+        <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">✨ Diagnóstico Rápido com IA</h2>
+        <p class="text-lg text-gray-400 mb-8">
+          Tem um problema elétrico? Descreva-o abaixo e a nossa inteligência artificial fornecerá uma análise preliminar e um serviço recomendado.
+        </p>
+        <div class="w-full max-w-2xl mx-auto">
+          <textarea id="problem-input" rows="4" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ex: A minha máquina de soldar não liga e faz um barulho estranho."></textarea>
+          <button id="analyze-button" class="mt-4 bg-yellow-400 text-gray-900 px-8 py-3 rounded-lg font-bold text-lg hover:bg-yellow-300 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-yellow-500/20 inline-flex items-center">
+            Analisar Problema
+          </button>
+        </div>
+        
+        <!-- Result Display -->
+        <div id="ai-result" class="mt-8 text-left max-w-2xl mx-auto hidden">
+          <div id="loader" class="mx-auto loader hidden"></div>
+          <div id="result-content" class="bg-gray-800 p-6 rounded-lg border border-yellow-500/30">
+            <!-- Content will be injected here by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="py-20 sm:py-28 bg-gray-800">
+      <div class="max-w-3xl mx-auto text-center px-4 fade-in-section">
+        <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Entre em Contato</h2>
+        <p class="text-lg text-gray-400 mb-8">
+          Precisa de um orçamento ou de um atendimento técnico? Fale conosco diretamente pelo WhatsApp.
+        </p>
+        <a href="https://wa.me/5582994267368" target="_blank" class="bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-300 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-yellow-500/20 inline-flex items-center">
+          <i data-feather="message-circle" class="h-6 w-6 mr-3"></i>
+          WhatsApp: (82) 99426-7368
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================= -->
+  <!-- Footer Section                                          -->
+  <!-- ======================================================= -->
+  <footer class="bg-black border-t border-yellow-500/20">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Company Info & Social -->
+        <div class="space-y-4">
+          <h3 class="text-xl font-bold text-yellow-400">JM Elétrica</h3>
+          <p class="text-gray-400">Qualidade e segurança em cada projeto.</p>
+          <div class="flex space-x-4 pt-2">
+            <a href="https://www.instagram.com/jm.e.le.tri.ca/" target="_blank" class="text-gray-400 hover:text-yellow-400 transition"><i data-feather="instagram" class="h-6 w-6"></i><span class="sr-only">Instagram</span></a>
+            <a href="https://www.youtube.com/jmeletrica-manutencao" target="_blank" class="text-gray-400 hover:text-yellow-400 transition"><i data-feather="youtube" class="h-6 w-6"></i><span class="sr-only">YouTube</span></a>
+          </div>
+        </div>
+        
+        <!-- Address & Map -->
+        <div class="space-y-4">
+          <h4 class="text-lg font-semibold text-white">Nosso Endereço</h4>
+          <p class="text-gray-400">Av. Intendente Júlio Calheiros, 26<br>Mata do Rolo, Rio Largo - AL</p>
+          <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3935.3281999311894!2d-35.842706!3d-9.4801557!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70135e7f3e263c7%3A0x462100d8002fdb82!2sJM%20ELETRICA%20LTDA!5e0!3m2!1spt-BR!2sbr!4v1752596030021!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="space-y-4">
+          <h4 class="text-lg font-semibold text-white">Links Rápidos</h4>
+          <ul class="space-y-2">
+            <li><a href="#servicos" class="text-gray-400 hover:text-yellow-400 transition">Serviços</a></li>
+            <li><a href="#galeria" class="text-gray-400 hover:text-yellow-400 transition">Galeria</a></li>
+            <li><a href="#assistencia" class="text-gray-400 hover:text-yellow-400 transition">Assistência</a></li>
+            <li><a href="#contato" class="text-gray-400 hover:text-yellow-400 transition">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 border-t border-gray-800 pt-8 text-center"><p class="text-gray-500">&copy; 2025 JM Elétrica – Todos os direitos reservados. | CNPJ: 49.006.662/0001-68</p></div>
+    </div>
+  </footer>
+
+  <!-- ======================================================= -->
+  <!-- Scripts                                                 -->
+  <!-- ======================================================= -->
+  <script>
+    // Feather Icons Replacement
+    feather.replace();
+
+    // Mobile Menu Toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    });
+
+    // Fade-in on scroll animation
+    const sections = document.querySelectorAll('.fade-in-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    sections.forEach(section => { observer.observe(section); });
+
+    // Swiper Carousel Initialization
+    const serviceCarousel = new Swiper('.service-carousel', {loop: true, slidesPerView: 1, spaceBetween: 30, pagination: {el: '.swiper-pagination', clickable: true,}, breakpoints: {640: {slidesPerView: 2,}, 1024: {slidesPerView: 3,}}});
+    
+    // Lightbox Options
+    lightbox.option({
+      'resizeDuration': 200,
+      'wrapAround': true,
+      'albumLabel': "Imagem %1 de %2"
+    });
+
+    // AI Diagnostic Tool Logic
+    const analyzeButton = document.getElementById('analyze-button');
+    const problemInput = document.getElementById('problem-input');
+    const aiResultContainer = document.getElementById('ai-result');
+    const loader = document.getElementById('loader');
+    const resultContent = document.getElementById('result-content');
+
+    analyzeButton.addEventListener('click', async () => {
+      const userProblem = problemInput.value.trim();
+      if (!userProblem) {
+        alert('Por favor, descreva o seu problema na caixa de texto.');
+        return;
+      }
+
+      // Show loader and hide previous content
+      aiResultContainer.classList.remove('hidden');
+      resultContent.classList.add('hidden');
+      loader.classList.remove('hidden');
+      analyzeButton.disabled = true;
+      analyzeButton.innerText = 'A analisar...';
+
+      const prompt = `Aja como um eletricista experiente e prestativo da empresa JM Elétrica. Um cliente descreveu o seguinte problema: '${userProblem}'. Com base neste problema, forneça um diagnóstico preliminar. A sua resposta deve ser um objeto JSON com a seguinte estrutura: {"diagnostico_preliminar": "Uma breve análise do que pode estar a acontecer.", "possiveis_causas": ["Causa provável 1.", "Causa provável 2.", "Causa provável 3."], "aviso_seguranca": "Um aviso de segurança importante, como desligar a energia ou não tentar reparar sozinho.", "servico_recomendado": "Recomende UM dos seguintes serviços da JM Elétrica que seja mais apropriado para resolver o problema: Quadros e Instalações, Automação e Pontes Rolantes, Rebobinamento de Motores, Manutenção de Carregadores, Equipamentos e Geradores."}. Se o problema descrito não for claro ou estiver fora do âmbito elétrico, retorne um JSON com uma mensagem de erro amigável. Analise o problema: '${userProblem}'`;
+
+      try {
+        const apiKey = ""; // API Key is handled by the environment
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        
+        const payload = {
+            contents: [{
+                parts: [{ text: prompt }]
+            }],
+            generationConfig: {
+                responseMimeType: "application/json",
+            }
+        };
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        let analysis = {};
+        if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
+            const text = result.candidates[0].content.parts[0].text;
+            const jsonStartIndex = text.indexOf('{');
+            const jsonEndIndex = text.lastIndexOf('}');
+
+            if (jsonStartIndex !== -1 && jsonEndIndex !== -1) {
+                const jsonString = text.substring(jsonStartIndex, jsonEndIndex + 1);
+                try {
+                    analysis = JSON.parse(jsonString);
+                } catch (e) {
+                    console.error("Erro ao fazer o parse do JSON extraído:", e);
+                    throw new Error("A resposta da API não continha um JSON válido.");
+                }
+            } else {
+                throw new Error("Não foi possível encontrar um objeto JSON na resposta da API.");
+            }
+        } else {
+            throw new Error("Resposta da API inválida ou vazia.");
+        }
+
+        // Create the WhatsApp message
+        const whatsappMessage = `Olá, usei o diagnóstico por IA no site e tive o seguinte problema: "${userProblem}". O serviço recomendado foi "${analysis.servico_recomendado}". Gostaria de um orçamento.`;
+        const whatsappUrl = `https://wa.me/5582994267368?text=${encodeURIComponent(whatsappMessage)}`;
+
+
+        // Build HTML for the result
+        let resultHTML = `
+          <h4 class="text-xl font-bold text-yellow-400 mb-3">Análise Preliminar</h4>
+          <p class="text-gray-300 mb-4">${analysis.diagnostico_preliminar}</p>
+          
+          <h5 class="text-lg font-semibold text-white mb-2">Possíveis Causas</h5>
+          <ul class="list-disc list-inside text-gray-400 mb-4">
+            ${analysis.possiveis_causas.map(causa => `<li>${causa}</li>`).join('')}
+          </ul>
+
+          <div class="bg-red-900/50 border border-red-500/50 text-red-300 p-3 rounded-lg mb-4">
+            <p class="font-bold">Aviso de Segurança!</p>
+            <p>${analysis.aviso_seguranca}</p>
+          </div>
+
+          <h5 class="text-lg font-semibold text-white mb-2">Serviço Recomendado</h5>
+          <p class="text-gray-300 mb-6">${analysis.servico_recomendado}</p>
+
+          <a href="${whatsappUrl}" target="_blank" class="bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center justify-center w-full sm:w-auto">
+              <i data-feather="message-circle" class="h-6 w-6 mr-3"></i>
+              Pedir Orçamento no WhatsApp
+          </a>
+        `;
+        
+        resultContent.innerHTML = resultHTML;
+        feather.replace(); // This is crucial to render the new icon
+
+      } catch (error) {
+        console.error('Erro ao chamar a API Gemini:', error);
+        resultContent.innerHTML = `<p class="text-red-400">Ocorreu um erro ao processar o seu pedido. Por favor, tente novamente mais tarde ou contacte-nos diretamente.</p>`;
+      } finally {
+        // Hide loader and show content
+        loader.classList.add('hidden');
+        resultContent.classList.remove('hidden');
+        analyzeButton.disabled = false;
+        analyzeButton.innerText = 'Analisar Problema';
+      }
+    });
+
+  </script>
+
+</body>
+</html>
