@@ -355,27 +355,17 @@
         return;
       }
 
-      // Show loader and hide previous content
       aiResultContainer.classList.remove('hidden');
       resultContent.classList.add('hidden');
       loader.classList.remove('hidden');
       analyzeButton.disabled = true;
       analyzeButton.innerText = 'A analisar...';
 
-      const prompt = `Aja como um eletricista experiente e prestativo da empresa JM Elétrica. Um cliente descreveu o seguinte problema: '${userProblem}'. Com base neste problema, forneça um diagnóstico preliminar. A sua resposta deve ser um objeto JSON com a seguinte estrutura: {"diagnostico_preliminar": "Uma breve análise do que pode estar a acontecer.", "possiveis_causas": ["Causa provável 1.", "Causa provável 2.", "Causa provável 3."], "aviso_seguranca": "Um aviso de segurança importante, como desligar a energia ou não tentar reparar sozinho.", "servico_recomendado": "Recomende UM dos seguintes serviços da JM Elétrica que seja mais apropriado para resolver o problema: Quadros e Instalações, Automação e Pontes Rolantes, Rebobinamento de Motores, Manutenção de Carregadores, Equipamentos e Geradores."}. Se o problema descrito não for claro ou estiver fora do âmbito elétrico, retorne um JSON com uma mensagem de erro amigável. Analise o problema: '${userProblem}'`;
+      // URL da API do backend que faz a chamada segura para a API Gemini
+      const apiUrl = 'https://jmeletrica-manutencao.com.br/api/diagnostico'; 
 
       try {
-        const apiKey = ""; // API Key is handled by the environment
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-        
-        const payload = {
-            contents: [{
-                parts: [{ text: prompt }]
-            }],
-            generationConfig: {
-                responseMimeType: "application/json",
-            }
-        };
+        const payload = { problem: userProblem };
 
         const response = await fetch(apiUrl, {
           method: 'POST',
@@ -384,7 +374,7 @@
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Erro de comunicação com o servidor! Status: ${response.status}`);
         }
 
         const result = await response.json();
@@ -400,39 +390,31 @@
                 try {
                     analysis = JSON.parse(jsonString);
                 } catch (e) {
-                    console.error("Erro ao fazer o parse do JSON extraído:", e);
-                    throw new Error("A resposta da API não continha um JSON válido.");
+                    throw new Error("A resposta do servidor não continha um JSON válido.");
                 }
             } else {
-                throw new Error("Não foi possível encontrar um objeto JSON na resposta da API.");
+                throw new Error("Não foi possível encontrar um objeto JSON na resposta do servidor.");
             }
         } else {
-            throw new Error("Resposta da API inválida ou vazia.");
+            throw new Error("Resposta do servidor inválida ou vazia.");
         }
 
-        // Create the WhatsApp message
         const whatsappMessage = `Olá, usei o diagnóstico por IA no site e tive o seguinte problema: "${userProblem}". O serviço recomendado foi "${analysis.servico_recomendado}". Gostaria de um orçamento.`;
         const whatsappUrl = `https://wa.me/5582994267368?text=${encodeURIComponent(whatsappMessage)}`;
 
-
-        // Build HTML for the result
         let resultHTML = `
           <h4 class="text-xl font-bold text-yellow-400 mb-3">Análise Preliminar</h4>
           <p class="text-gray-300 mb-4">${analysis.diagnostico_preliminar}</p>
-          
           <h5 class="text-lg font-semibold text-white mb-2">Possíveis Causas</h5>
           <ul class="list-disc list-inside text-gray-400 mb-4">
             ${analysis.possiveis_causas.map(causa => `<li>${causa}</li>`).join('')}
           </ul>
-
           <div class="bg-red-900/50 border border-red-500/50 text-red-300 p-3 rounded-lg mb-4">
             <p class="font-bold">Aviso de Segurança!</p>
             <p>${analysis.aviso_seguranca}</p>
           </div>
-
           <h5 class="text-lg font-semibold text-white mb-2">Serviço Recomendado</h5>
           <p class="text-gray-300 mb-6">${analysis.servico_recomendado}</p>
-
           <a href="${whatsappUrl}" target="_blank" class="bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-lg hover:bg-green-400 transition-all duration-300 inline-flex items-center justify-center w-full sm:w-auto">
               <i data-feather="message-circle" class="h-6 w-6 mr-3"></i>
               Pedir Orçamento no WhatsApp
@@ -440,20 +422,18 @@
         `;
         
         resultContent.innerHTML = resultHTML;
-        feather.replace(); // This is crucial to render the new icon
+        feather.replace();
 
       } catch (error) {
-        console.error('Erro ao chamar a API Gemini:', error);
+        console.error('Erro na ferramenta de diagnóstico:', error);
         resultContent.innerHTML = `<p class="text-red-400">Ocorreu um erro ao processar o seu pedido. Por favor, tente novamente mais tarde ou contacte-nos diretamente.</p>`;
       } finally {
-        // Hide loader and show content
         loader.classList.add('hidden');
         resultContent.classList.remove('hidden');
         analyzeButton.disabled = false;
         analyzeButton.innerText = 'Analisar Problema';
       }
     });
-
   </script>
 
 </body>
