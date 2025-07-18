@@ -361,7 +361,8 @@
       analyzeButton.disabled = true;
       analyzeButton.innerText = 'A analisar...';
 
-      const apiUrl = 'https://jmeletrica-manutencao.com.br/api/diagnostico'; 
+      // *** MUDANÇA IMPORTANTE: URL da API é construída dinamicamente ***
+      const apiUrl = `${window.location.origin}/api/diagnostico`; 
 
       try {
         const payload = { problem: userProblem };
