@@ -379,6 +379,10 @@
 
         const analysis = await response.json();
 
+        if (!analysis.diagnostico_preliminar || !analysis.servico_recomendado) {
+            throw new Error("A resposta da IA não continha os dados esperados.");
+        }
+
         const whatsappMessage = `Olá, usei o diagnóstico por IA no site e tive o seguinte problema: "${userProblem}". O serviço recomendado foi "${analysis.servico_recomendado}". Gostaria de um orçamento.`;
         const whatsappUrl = `https://wa.me/5582994267368?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -405,8 +409,8 @@
         feather.replace();
 
       } catch (error) {
-        console.error('Erro na ferramenta de diagnóstico:', error);
-        resultContent.innerHTML = `<p class="text-red-400">Ocorreu um erro ao processar o seu pedido. Por favor, tente novamente mais tarde ou contacte-nos diretamente.</p>`;
+        console.error('ERRO DETALHADO NO FRONTEND:', error);
+        resultContent.innerHTML = `<p class="text-red-400">Ocorreu um erro ao processar o seu pedido. Por favor, tente novamente mais tarde ou contacte-nos diretamente. Detalhe: ${error.message}</p>`;
       } finally {
         loader.classList.add('hidden');
         resultContent.classList.remove('hidden');
