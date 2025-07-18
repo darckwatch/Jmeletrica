@@ -16,10 +16,6 @@
   <!-- Feather Icons for UI -->
   <script src="https://unpkg.com/feather-icons"></script>
 
-  <!-- Swiper.js for Carousels -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
   <!-- Lightbox2 for Image Viewer -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
@@ -45,21 +41,17 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Custom Swiper Styles */
-    .swiper-button-next,
-    .swiper-button-prev {
-      color: #FBBF24; /* text-amber-400 */
-      transform: scale(0.8);
+    .service-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        cursor: pointer;
     }
-    .swiper-pagination-bullet-active {
-      background: #FBBF24; /* text-amber-400 */
-    }
-    .swiper-slide {
-      height: auto;
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(250, 204, 21, 0.1);
     }
     /* Styles for partner logos */
     .logo-container {
-        height: 104px; /* Increased size by 30% from 80px */
+        height: 104px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -75,15 +67,15 @@
     }
     /* Lightbox Customizations */
     .lightbox .lb-dataContainer {
-        background-color: #1f2937; /* bg-gray-800 */
+        background-color: #1f2937;
     }
     .lightbox .lb-caption, .lightbox .lb-number {
-        color: #d1d5db; /* text-gray-300 */
+        color: #d1d5db;
     }
     /* AI Diagnostic Tool Styles */
     .loader {
-      border: 4px solid #f3f3f3; /* Light grey */
-      border-top: 4px solid #facc15; /* Yellow */
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #facc15;
       border-radius: 50%;
       width: 40px;
       height: 40px;
@@ -114,7 +106,6 @@
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex space-x-8">
           <a href="#servicos" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Serviços</a>
-          <a href="#galeria" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Galeria</a>
           <a href="#assistencia" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Assistência</a>
           <a href="#diagnostico-ia" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Diagnóstico IA</a>
           <a href="#contato" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Contato</a>
@@ -134,7 +125,6 @@
     <div id="mobile-menu" class="md:hidden hidden">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         <a href="#servicos" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Serviços</a>
-        <a href="#galeria" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Galeria</a>
         <a href="#assistencia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Assistência</a>
         <a href="#diagnostico-ia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Diagnóstico IA</a>
         <a href="#contato" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Contato</a>
@@ -162,51 +152,118 @@
       </div>
     </section>
 
-    <!-- Services Section with Carousel -->
+    <!-- Services Section with Grid -->
     <section id="servicos" class="py-20 sm:py-28 bg-gray-800">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center fade-in-section">
           <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Nossos Serviços</h2>
-          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Navegue por nossas especialidades e veja como podemos ajudar.</p>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Clique num serviço para ver exemplos do nosso trabalho.</p>
         </div>
 
-        <div class="mt-16 fade-in-section">
-          <div class="swiper service-carousel">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="tool" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Quadros e Instalações</h3><p class="text-gray-400 flex-grow">Montagem, modernização e manutenção de quadros de distribuição e infraestrutura elétrica.</p></div>
-              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="cpu" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Automação e Pontes Rolantes</h3><p class="text-gray-400 flex-grow">Manutenção completa em pontes rolantes, reparo e configuração de inversores e IHMs.</p></div>
-              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="refresh-cw" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Rebobinamento de Motores</h3><p class="text-gray-400 flex-grow">Serviço especializado de rebobinamento para todos os tipos de motores elétricos.</p></div>
-              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="battery-charging" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Manutenção de Carregadores</h3><p class="text-gray-400 flex-grow">Reparo e manutenção em carregadores de bateria de todos os modelos.</p></div>
-              <div class="swiper-slide flex flex-col bg-gray-900 p-8 rounded-xl shadow-lg"><i data-feather="zap" class="h-10 w-10 text-yellow-400 mb-4"></i><h3 class="text-xl font-bold text-white mb-3">Equipamentos e Geradores</h3><p class="text-gray-400 flex-grow">Manutenção em máquinas de solda, compressores de ar e sistemas elétricos de geradores.</p></div>
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-section">
+          
+          <!-- Serviço 1: Quadros e Instalações -->
+          <div class="h-full">
+            <a href="https://placehold.co/800x600/1f2937/facc15?text=Quadro+Elétrico" data-lightbox="servico-quadros" data-title="Montagem de Quadro de Distribuição" class="block h-full">
+              <div class="service-card bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col h-full">
+                <i data-feather="tool" class="h-10 w-10 text-yellow-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-white mb-3">Quadros e Instalações</h3>
+                <p class="text-gray-400 flex-grow">Montagem, modernização e manutenção de quadros de distribuição e infraestrutura elétrica.</p>
+                <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver Galeria →</span>
+              </div>
+            </a>
+            <div class="hidden">
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Instalação+Industrial" data-lightbox="servico-quadros" data-title="Infraestrutura Elétrica Industrial"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Painel+de+Comando" data-lightbox="servico-quadros" data-title="Painel de Comando Automatizado"></a>
             </div>
-            <div class="swiper-pagination mt-8 relative"></div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Gallery Section -->
-    <section id="galeria" class="py-20 sm:py-28 bg-gray-900">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center fade-in-section">
-          <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Galeria</h2>
-          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Clique nas imagens para ampliar e ver mais detalhes do nosso trabalho.</p>
-        </div>
-        
-        <div class="mt-20 fade-in-section">
-          <h3 class="text-2xl font-bold text-yellow-300 mb-6 text-center">Manutenção de Equipamentos</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <a href="/galeria/esab.jpeg" data-lightbox="equipamentos" data-title="Manutenção de Soldadoras"><img src="/galeria/esab.jpeg" alt="Manutenção em máquina de solda" class="w-full h-72 object-cover rounded-lg cursor-pointer transform hover:scale-105 transition-transform duration-300"></a>
-            <a href="/galeria/solda-transformador.jpeg" data-lightbox="equipamentos" data-title="Reparo em Inversores de Solda"><img src="/galeria/solda-transformador.jpeg" alt="Manutenção em máquina de solda" class="w-full h-72 object-cover rounded-lg cursor-pointer transform hover:scale-105 transition-transform duration-300"></a>
-            <a href="/galeria/motor.jpeg" data-lightbox="equipamentos" data-title="Rebobinamento de Motores"><img src="/galeria/motor.jpeg" alt="Motor industrial" class="w-full h-72 object-cover rounded-lg cursor-pointer transform hover:scale-105 transition-transform duration-300"></a>
-            <a href="/galeria/placa.jpeg" data-lightbox="equipamentos" data-title="Manutenção de inversoras de solda"><img src="/galeria/placa.jpeg" alt="Inversora de solda" class="w-full h-72 object-cover rounded-lg cursor-pointer transform hover:scale-105 transition-transform duration-300"></a>
+          <!-- Serviço 2: Automação e Pontes Rolantes -->
+          <div class="h-full">
+            <a href="https://placehold.co/800x600/1f2937/facc15?text=Ponte+Rolante" data-lightbox="servico-automacao" data-title="Manutenção em Ponte Rolante">
+              <div class="service-card bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col h-full">
+                <i data-feather="cpu" class="h-10 w-10 text-yellow-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-white mb-3">Automação e Pontes Rolantes</h3>
+                <p class="text-gray-400 flex-grow">Manutenção completa em pontes rolantes, reparo e configuração de inversores e IHMs.</p>
+                <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver Galeria →</span>
+              </div>
+            </a>
+            <div class="hidden">
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Inversor+de+Frequência" data-lightbox="servico-automacao" data-title="Configuração de Inversor de Frequência"></a>
+            </div>
           </div>
+
+          <!-- Serviço 3: Rebobinamento de Motores -->
+          <div class="h-full">
+            <a href="https://placehold.co/800x600/1f2937/facc15?text=Motor+Rebobinado" data-lightbox="servico-motores" data-title="Motor Elétrico Rebobinado">
+              <div class="service-card bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col h-full">
+                <i data-feather="refresh-cw" class="h-10 w-10 text-yellow-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-white mb-3">Rebobinamento de Motores</h3>
+                <p class="text-gray-400 flex-grow">Serviço especializado de rebobinamento para todos os tipos de motores elétricos.</p>
+                <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver Galeria →</span>
+              </div>
+            </a>
+            <div class="hidden">
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Motor+Aberto" data-lightbox="servico-motores" data-title="Análise de Motor para Rebobinamento"></a>
+            </div>
+          </div>
+
+          <!-- Serviço 4: Aluguel de Máquinas -->
+          <div class="h-full">
+            <a href="https://placehold.co/800x600/1f2937/facc15?text=Máquina+de+Solda" data-lightbox="servico-aluguel" data-title="Aluguel de Máquina de Solda">
+              <div class="service-card bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col h-full">
+                <i data-feather="calendar" class="h-10 w-10 text-yellow-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-white mb-3">Aluguel de Máquinas</h3>
+                <p class="text-gray-400 flex-grow">Oferecemos: Máquina de solda, marteletes (3kg e 15kg), furadeira, serra mármore, lixadeira, compressor, soprador térmico, repuxadeira e plaina.</p>
+                <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver Equipamentos →</span>
+              </div>
+            </a>
+            <div class="hidden">
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Martelete+3kg" data-lightbox="servico-aluguel" data-title="Aluguel de Martelete (3kg)"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Martelete+15kg" data-lightbox="servico-aluguel" data-title="Aluguel de Martelete (15kg)"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Furadeira" data-lightbox="servico-aluguel" data-title="Aluguel de Furadeira"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Serra+Mármore" data-lightbox="servico-aluguel" data-title="Aluguel de Serra Mármore"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Lixadeira" data-lightbox="servico-aluguel" data-title="Aluguel de Lixadeira"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Compressor+de+Ar" data-lightbox="servico-aluguel" data-title="Aluguel de Compressor de Ar"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Soprador+Térmico" data-lightbox="servico-aluguel" data-title="Aluguel de Soprador Térmico"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Repuxadeira" data-lightbox="servico-aluguel" data-title="Aluguel de Repuxadeira"></a>
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Plaina" data-lightbox="servico-aluguel" data-title="Aluguel de Plaina"></a>
+            </div>
+          </div>
+
+          <!-- Serviço 5: Manutenção de Carregadores -->
+          <div class="h-full">
+            <a href="https://placehold.co/800x600/1f2937/facc15?text=Carregador+1" data-lightbox="servico-carregadores" data-title="Manutenção em Carregador de Baterias">
+              <div class="service-card bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col h-full">
+                <i data-feather="battery-charging" class="h-10 w-10 text-yellow-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-white mb-3">Manutenção de Carregadores</h3>
+                <p class="text-gray-400 flex-grow">Reparo e manutenção em carregadores de bateria de todos os modelos.</p>
+                <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver Galeria →</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Serviço 6: Equipamentos e Geradores -->
+          <div class="h-full">
+            <a href="https://placehold.co/800x600/1f2937/facc15?text=Máquina+de+Solda" data-lightbox="servico-equipamentos" data-title="Manutenção em Máquina de Solda">
+              <div class="service-card bg-gray-900 p-8 rounded-xl shadow-lg flex flex-col h-full">
+                <i data-feather="zap" class="h-10 w-10 text-yellow-400 mb-4"></i>
+                <h3 class="text-xl font-bold text-white mb-3">Equipamentos e Geradores</h3>
+                <p class="text-gray-400 flex-grow">Manutenção em máquinas de solda, compressores de ar e sistemas elétricos de geradores.</p>
+                <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver Galeria →</span>
+              </div>
+            </a>
+             <div class="hidden">
+              <a href="https://placehold.co/800x600/1f2937/facc15?text=Gerador" data-lightbox="servico-equipamentos" data-title="Manutenção em Gerador de Energia"></a>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
 
     <!-- Authorized Service Section -->
-    <section id="assistencia" class="py-20 sm:py-28 bg-gray-800">
+    <section id="assistencia" class="py-20 sm:py-28 bg-gray-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center fade-in-section">
           <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Assistência Técnica Autorizada</h2>
@@ -225,14 +282,14 @@
     </section>
 
     <!-- AI Diagnostic Tool Section -->
-    <section id="diagnostico-ia" class="py-20 sm:py-28 bg-gray-900">
+    <section id="diagnostico-ia" class="py-20 sm:py-28 bg-gray-800">
       <div class="max-w-4xl mx-auto text-center px-4 fade-in-section">
         <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">✨ Diagnóstico Rápido com IA</h2>
         <p class="text-lg text-gray-400 mb-8">
           Tem um problema elétrico? Descreva-o abaixo e a nossa inteligência artificial fornecerá uma análise preliminar e um serviço recomendado.
         </p>
         <div class="w-full max-w-2xl mx-auto">
-          <textarea id="problem-input" rows="4" class="w-full p-4 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ex: A minha máquina de soldar não liga e faz um barulho estranho."></textarea>
+          <textarea id="problem-input" rows="4" class="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Ex: A minha máquina de soldar não liga e faz um barulho estranho."></textarea>
           <button id="analyze-button" class="mt-4 bg-yellow-400 text-gray-900 px-8 py-3 rounded-lg font-bold text-lg hover:bg-yellow-300 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-yellow-500/20 inline-flex items-center">
             Analisar Problema
           </button>
@@ -241,7 +298,7 @@
         <!-- Result Display -->
         <div id="ai-result" class="mt-8 text-left max-w-2xl mx-auto hidden">
           <div id="loader" class="mx-auto loader hidden"></div>
-          <div id="result-content" class="bg-gray-800 p-6 rounded-lg border border-yellow-500/30">
+          <div id="result-content" class="bg-gray-700 p-6 rounded-lg border border-yellow-500/30">
             <!-- Content will be injected here by JavaScript -->
           </div>
         </div>
@@ -249,7 +306,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contato" class="py-20 sm:py-28 bg-gray-800">
+    <section id="contato" class="py-20 sm:py-28 bg-gray-900">
       <div class="max-w-3xl mx-auto text-center px-4 fade-in-section">
         <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Entre em Contato</h2>
         <p class="text-lg text-gray-400 mb-8">
@@ -291,7 +348,6 @@
           <h4 class="text-lg font-semibold text-white">Links Rápidos</h4>
           <ul class="space-y-2">
             <li><a href="#servicos" class="text-gray-400 hover:text-yellow-400 transition">Serviços</a></li>
-            <li><a href="#galeria" class="text-gray-400 hover:text-yellow-400 transition">Galeria</a></li>
             <li><a href="#assistencia" class="text-gray-400 hover:text-yellow-400 transition">Assistência</a></li>
             <li><a href="#contato" class="text-gray-400 hover:text-yellow-400 transition">Contato</a></li>
           </ul>
@@ -331,9 +387,6 @@
     }, { threshold: 0.1 });
     sections.forEach(section => { observer.observe(section); });
 
-    // Swiper Carousel Initialization
-    const serviceCarousel = new Swiper('.service-carousel', {loop: true, slidesPerView: 1, spaceBetween: 30, pagination: {el: '.swiper-pagination', clickable: true,}, breakpoints: {640: {slidesPerView: 2,}, 1024: {slidesPerView: 3,}}});
-    
     // Lightbox Options
     lightbox.option({
       'resizeDuration': 200,
@@ -361,7 +414,6 @@
       analyzeButton.disabled = true;
       analyzeButton.innerText = 'A analisar...';
 
-      // *** MUDANÇA IMPORTANTE: URL da API é construída dinamicamente ***
       const apiUrl = `${window.location.origin}/api/diagnostico`; 
 
       try {
