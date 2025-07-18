@@ -361,7 +361,6 @@
       analyzeButton.disabled = true;
       analyzeButton.innerText = 'A analisar...';
 
-      // URL da API do backend que faz a chamada segura para a API Gemini
       const apiUrl = 'https://jmeletrica-manutencao.com.br/api/diagnostico'; 
 
       try {
@@ -374,30 +373,11 @@
         });
 
         if (!response.ok) {
-            throw new Error(`Erro de comunicação com o servidor! Status: ${response.status}`);
+            const errorData = await response.json().catch(() => ({ error: 'Erro de comunicação com o servidor.' }));
+            throw new Error(errorData.error || `Erro de comunicação com o servidor! Status: ${response.status}`);
         }
 
-        const result = await response.json();
-        
-        let analysis = {};
-        if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
-            const text = result.candidates[0].content.parts[0].text;
-            const jsonStartIndex = text.indexOf('{');
-            const jsonEndIndex = text.lastIndexOf('}');
-
-            if (jsonStartIndex !== -1 && jsonEndIndex !== -1) {
-                const jsonString = text.substring(jsonStartIndex, jsonEndIndex + 1);
-                try {
-                    analysis = JSON.parse(jsonString);
-                } catch (e) {
-                    throw new Error("A resposta do servidor não continha um JSON válido.");
-                }
-            } else {
-                throw new Error("Não foi possível encontrar um objeto JSON na resposta do servidor.");
-            }
-        } else {
-            throw new Error("Resposta do servidor inválida ou vazia.");
-        }
+        const analysis = await response.json();
 
         const whatsappMessage = `Olá, usei o diagnóstico por IA no site e tive o seguinte problema: "${userProblem}". O serviço recomendado foi "${analysis.servico_recomendado}". Gostaria de um orçamento.`;
         const whatsappUrl = `https://wa.me/5582994267368?text=${encodeURIComponent(whatsappMessage)}`;
