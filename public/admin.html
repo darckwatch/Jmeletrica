@@ -9,10 +9,11 @@
   <script>
     const idToken = sessionStorage.getItem('google_id_token');
     const isAuthenticated = sessionStorage.getItem('isAdminAuthenticated') === 'true';
-    const ALLOWED_DOMAIN = 'jmeletrica-manutencao.com.br'; // IMPORTANTE: Defina o mesmo domínio aqui
+    const ALLOWED_DOMAIN = 'suaorganizacao.com'; // IMPORTANTE: Defina o mesmo domínio aqui
 
     function jwt_decode(token) {
         try {
+            // Decodifica o payload do token JWT, que está na segunda parte
             return JSON.parse(atob(token.split('.')[1]));
         } catch (e) {
             return null;
@@ -335,14 +336,25 @@
 
       // --- INITIAL DATA (DATABASE SIMULATION) ---
       let services = [
-        { id: 1, name: 'Quadros e Instalações', description: 'Montagem, modernização e manutenção...', gallery: ['https://placehold.co/800x600/1f2937/facc15?text=Quadro+1', 'https://placehold.co/800x600/1f2937/facc15?text=Quadro+2'] },
-        { id: 2, name: 'Automação e Pontes Rolantes', description: 'Manutenção completa em pontes rolantes...', gallery: ['https://placehold.co/800x600/1f2937/facc15?text=Ponte+Rolante'] }
+        { id: 1, name: 'Quadros e Instalações', description: 'Montagem, modernização e manutenção de quadros de distribuição e infraestrutura elétrica.', gallery: [] },
+        { id: 2, name: 'Automação e Pontes Rolantes', description: 'Manutenção completa em pontes rolantes, reparo e configuração de inversores e IHMs.', gallery: [] },
+        { id: 3, name: 'Rebobinamento de Motores', description: 'Serviço especializado de rebobinamento para todos os tipos de motores elétricos.', gallery: [] },
+        { id: 4, name: 'Aluguel de Máquinas', description: 'Oferecemos: Máquina de solda, marteletes (3kg e 15kg), furadeira, serra mármore, lixadeira, compressor, soprador térmico, repuxadeira e plaina.', gallery: [] },
+        { id: 5, name: 'Manutenção de Carregadores', description: 'Reparo e manutenção em carregadores de bateria de todos os modelos.', gallery: [] },
+        { id: 6, name: 'Equipamentos e Geradores', description: 'Manutenção em máquinas de solda, compressores de ar e sistemas elétricos de geradores.', gallery: [] }
       ];
 
       let machines = [
-        { id: 1, name: 'Máquina de Solda', status: 'disponivel' },
-        { id: 2, name: 'Martelete (15kg)', status: 'alugada' },
-        { id: 3, name: 'Compressor de Ar', status: 'manutencao' }
+        { id: 1, name: 'Máquina de solda', status: 'disponivel' },
+        { id: 2, name: 'Martelete (3kg)', status: 'disponivel' },
+        { id: 3, name: 'Martelete (15kg)', status: 'disponivel' },
+        { id: 4, name: 'Furadeira', status: 'disponivel' },
+        { id: 5, name: 'Serra mármore', status: 'disponivel' },
+        { id: 6, name: 'Lixadeira', status: 'disponivel' },
+        { id: 7, name: 'Compressor', status: 'disponivel' },
+        { id: 8, name: 'Soprador térmico', status: 'disponivel' },
+        { id: 9, name: 'Repuxadeira', status: 'disponivel' },
+        { id: 10, name: 'Plaina', status: 'disponivel' }
       ];
 
       // --- RENDER FUNCTIONS ---
