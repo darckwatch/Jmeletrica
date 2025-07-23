@@ -5,25 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel Administrativo | JM Elétrica</title>
   
-  <!-- Security Check: Redirect if not logged in -->
+  <!-- Security Check: Redirect if not logged in or not from the allowed domain -->
   <script>
-    if (sessionStorage.getItem('isAdminAuthenticated') !== 'true') {
+    const idToken = sessionStorage.getItem('google_id_token');
+    const isAuthenticated = sessionStorage.getItem('isAdminAuthenticated') === 'true';
+    const ALLOWED_DOMAIN = 'suaorganizacao.com'; // IMPORTANTE: Defina o mesmo domínio aqui
+
+    function jwt_decode(token) {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    }
+
+    if (!isAuthenticated || !idToken) {
+        sessionStorage.clear();
         window.location.href = 'login.html';
+    } else {
+        const decodedToken = jwt_decode(idToken);
+        if (!decodedToken || decodedToken.hd !== ALLOWED_DOMAIN) {
+            alert('Acesso inválido ou não autorizado.');
+            sessionStorage.clear();
+            window.location.href = 'login.html';
+        }
     }
   </script>
 
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS, Fonts, Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Feather Icons -->
   <script src="https://unpkg.com/feather-icons"></script>
-
-  <!-- Chart.js for data visualization -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -115,9 +129,9 @@
       </nav>
       <div class="p-4 border-t border-gray-700">
         <div class="flex items-center">
-          <img class="h-10 w-10 rounded-full object-cover" src="https://placehold.co/100x100/1f2937/facc15?text=A" alt="[Avatar do Admin]">
+          <img id="user-avatar" class="h-10 w-10 rounded-full object-cover" src="https://placehold.co/100x100/1f2937/facc15?text=A" alt="[Avatar do Admin]">
           <div class="ml-3">
-            <p class="text-sm font-semibold text-white">Admin</p>
+            <p id="user-name" class="text-sm font-semibold text-white">Admin</p>
             <a href="#" id="logout-btn" class="text-xs text-red-400 hover:text-red-300">Sair</a>
           </div>
         </div>
@@ -303,13 +317,13 @@
   </div>
 
   <!-- Google API Client Library -->
-  <script src="https://apis.google.com/js/api.js"></script>
-  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://apis.google.com/js/api.js" async defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // --- GOOGLE DRIVE API CONFIGURATION ---
-      // IMPORTANTE: Substitua pelos seus próprios valores do Google Cloud Console.
+      // IMPORTANTE: Substitua pelos seus próprios valores.
       const GOOGLE_API_KEY = 'SUA_CHAVE_DE_API_AQUI'; 
       const GOOGLE_CLIENT_ID = 'SEU_ID_DE_CLIENTE_AQUI';
       const GOOGLE_APP_ID = 'SEU_APP_ID_AQUI'; // O App ID é o número do projeto no Google Cloud
@@ -652,29 +666,30 @@
 
       document.getElementById('logout-btn').addEventListener('click', (e) => {
         e.preventDefault();
-        sessionStorage.removeItem('isAdminAuthenticated');
+        sessionStorage.clear();
         window.location.href = 'login.html';
       });
 
+      function updateUserProfile() {
+          const token = sessionStorage.getItem('google_id_token');
+          if (token) {
+              const userInfo = jwt_decode(token);
+              if (userInfo) {
+                  document.getElementById('user-name').textContent = userInfo.name;
+                  document.getElementById('user-avatar').src = userInfo.picture;
+              }
+          }
+      }
+
       // --- INITIAL RENDER ---
+      updateUserProfile();
       renderServiceTable();
       renderMachineTable();
       renderGalleryServices();
 
       // Load Google scripts
-      const gapiScript = document.createElement('script');
-      gapiScript.src = 'https://apis.google.com/js/api.js';
-      gapiScript.async = true;
-      gapiScript.defer = true;
-      gapiScript.onload = gapiLoaded;
-      document.body.appendChild(gapiScript);
-
-      const gisScript = document.createElement('script');
-      gisScript.src = 'https://accounts.google.com/gsi/client';
-      gisScript.async = true;
-      gisScript.defer = true;
-      gisScript.onload = initializeGis;
-      document.body.appendChild(gisScript);
+      window.gapiLoaded = gapiLoaded;
+      window.initializeGis = initializeGis;
     });
   </script>
 
