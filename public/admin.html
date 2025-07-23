@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Administrativo | JM Elétrica</title>
+  
+  <!-- Security Check: Redirect if not logged in -->
+  <script>
+    if (sessionStorage.getItem('isAdminAuthenticated') !== 'true') {
+        window.location.href = 'login.html';
+    }
+  </script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* Custom styles for the admin panel */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111827; /* bg-gray-900 */
+      color: #F3F4F6; /* text-gray-100 */
+    }
+    /* Custom scrollbar for webkit browsers */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1f2937; /* bg-gray-800 */
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #4b5563; /* bg-gray-600 */
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #6b7280; /* bg-gray-500 */
+    }
+    /* Style for active navigation link */
+    .sidebar-link.active {
+        background-color: #facc15; /* yellow-400 */
+        color: #111827; /* gray-900 */
+        font-weight: 600;
+    }
+    /* Modal styles */
+    .modal-backdrop {
+        transition: opacity 0.3s ease;
+    }
+    .modal-content {
+        transition: transform 0.3s ease;
+    }
+    /* Styles for status badges */
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .status-disponivel { background-color: rgba(52, 211, 153, 0.1); color: #34d399; }
+    .status-alugada { background-color: rgba(251, 146, 60, 0.1); color: #fb923c; }
+    .status-manutencao { background-color: rgba(248, 113, 113, 0.1); color: #f87171; }
+    
+    /* Gallery image overlay for delete button */
+    .gallery-image-container {
+        position: relative;
+    }
+    .gallery-image-overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .gallery-image-container:hover .gallery-image-overlay {
+        opacity: 1;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="flex h-screen bg-gray-900">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="w-64 bg-gray-800 border-r border-yellow-500/20 flex-shrink-0 flex-col transition-transform duration-300 ease-in-out md:flex -translate-x-full md:translate-x-0 fixed md:relative z-40 h-full">
+      <div class="h-20 flex items-center justify-center border-b border-gray-700">
+        <a href="#" class="text-3xl font-bold text-yellow-400">
+          JM Elétrica <span class="text-lg font-normal text-gray-400 block -mt-2 text-center">Admin</span>
+        </a>
+      </div>
+      <nav class="flex-1 px-4 py-6 space-y-2">
+        <a href="#dashboard" class="sidebar-link active flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 transition-colors"><i data-feather="home" class="h-5 w-5 mr-3"></i> Dashboard</a>
+        <a href="#servicos" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 transition-colors"><i data-feather="tool" class="h-5 w-5 mr-3"></i> Serviços</a>
+        <a href="#aluguel" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 transition-colors"><i data-feather="truck" class="h-5 w-5 mr-3"></i> Aluguel</a>
+        <a href="#galeria" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 transition-colors"><i data-feather="image" class="h-5 w-5 mr-3"></i> Galeria</a>
+        <a href="#diagnosticos" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 transition-colors"><i data-feather="cpu" class="h-5 w-5 mr-3"></i> Diagnósticos IA</a>
+        <a href="#configuracoes" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 transition-colors"><i data-feather="settings" class="h-5 w-5 mr-3"></i> Configurações</a>
+      </nav>
+      <div class="p-4 border-t border-gray-700">
+        <div class="flex items-center">
+          <img class="h-10 w-10 rounded-full object-cover" src="https://placehold.co/100x100/1f2937/facc15?text=A" alt="[Avatar do Admin]">
+          <div class="ml-3">
+            <p class="text-sm font-semibold text-white">Admin</p>
+            <a href="#" id="logout-btn" class="text-xs text-red-400 hover:text-red-300">Sair</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Header -->
+      <header class="h-20 bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 flex items-center justify-between px-6">
+        <button id="mobile-menu-toggle" class="md:hidden text-gray-400 hover:text-white"><i data-feather="menu" class="h-6 w-6"></i></button>
+        <h1 id="page-title" class="text-xl font-semibold text-white">Dashboard</h1>
+        <div class="flex items-center space-x-4">
+          <button class="text-gray-400 hover:text-white relative"><i data-feather="bell" class="h-6 w-6"></i><span class="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-gray-800"></span></button>
+        </div>
+      </header>
+      
+      <!-- Page Content -->
+      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-900 p-6">
+        
+        <!-- Dashboard Section -->
+        <section id="dashboard-content" class="content-section">
+          <!-- Stat Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-400">Visitas Totais</p>
+                <p class="text-3xl font-bold text-white">1,482</p>
+              </div>
+              <div class="bg-yellow-400/20 text-yellow-400 p-3 rounded-full">
+                <i data-feather="eye" class="h-6 w-6"></i>
+              </div>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-400">Leads (WhatsApp)</p>
+                <p class="text-3xl font-bold text-white">73</p>
+              </div>
+              <div class="bg-green-500/20 text-green-400 p-3 rounded-full">
+                <i data-feather="message-circle" class="h-6 w-6"></i>
+              </div>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-400">Diagnósticos IA</p>
+                <p class="text-3xl font-bold text-white">112</p>
+              </div>
+              <div class="bg-blue-500/20 text-blue-400 p-3 rounded-full">
+                <i data-feather="cpu" class="h-6 w-6"></i>
+              </div>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-400">Novos Clientes</p>
+                <p class="text-3xl font-bold text-white">12</p>
+              </div>
+              <div class="bg-indigo-500/20 text-indigo-400 p-3 rounded-full">
+                <i data-feather="users" class="h-6 w-6"></i>
+              </div>
+            </div>
+          </div>
+          <!-- Traffic Chart -->
+          <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+            <h3 class="font-semibold text-white mb-4">Tráfego do Site (Últimos 30 dias)</h3>
+            <canvas id="trafficChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="servicos-content" class="content-section hidden">
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold text-white text-xl">Gerenciar Serviços</h3>
+                    <button id="add-service-btn" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold text-sm hover:bg-yellow-300 flex items-center"><i data-feather="plus" class="h-4 w-4 mr-2"></i> Adicionar Serviço</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700/50"><tr><th class="p-4 font-semibold">Serviço</th><th class="p-4 font-semibold">Descrição</th><th class="p-4 font-semibold text-center">Ações</th></tr></thead>
+                        <tbody id="service-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rental Machines Section -->
+        <section id="aluguel-content" class="content-section hidden">
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold text-white text-xl">Gerenciar Máquinas de Aluguel</h3>
+                    <button id="add-machine-btn" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold text-sm hover:bg-yellow-300 flex items-center"><i data-feather="plus" class="h-4 w-4 mr-2"></i> Adicionar Máquina</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700/50"><tr><th class="p-4 font-semibold">Máquina</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold text-center">Ações</th></tr></thead>
+                        <tbody id="machine-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="galeria-content" class="content-section hidden">
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <h3 class="font-semibold text-white text-xl mb-4">Gerenciar Galeria de Projetos</h3>
+                <div id="gallery-services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Gallery service cards will be injected here -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Diagnostics Section -->
+        <section id="diagnosticos-content" class="content-section hidden">
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <h3 class="font-semibold text-white text-xl mb-4">Log de Diagnósticos por IA</h3>
+                <div class="space-y-4">
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-sm text-gray-400 mb-2"><strong>Usuário:</strong> (anônimo) - <time>21/07/2025 18:34</time></p>
+                        <p class="text-white mb-2"><strong>Problema:</strong> "A minha máquina de soldar não liga e faz um barulho estranho."</p>
+                        <p class="text-yellow-300 text-sm"><strong>Serviço Recomendado:</strong> Manutenção em Equipamentos e Geradores</p>
+                    </div>
+                     <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-sm text-gray-400 mb-2"><strong>Usuário:</strong> (anônimo) - <time>21/07/2025 15:12</time></p>
+                        <p class="text-white mb-2"><strong>Problema:</strong> "O disjuntor do chuveiro desarma toda vez que eu ligo."</p>
+                        <p class="text-yellow-300 text-sm"><strong>Serviço Recomendado:</strong> Quadros e Instalações</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Settings Section -->
+        <section id="configuracoes-content" class="content-section hidden">
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
+                <h3 class="font-semibold text-white text-xl mb-6">Configurações Gerais</h3>
+                <form class="space-y-6">
+                    <div>
+                        <label for="admin-email" class="block text-sm font-medium text-gray-300 mb-1">Email do Administrador</label>
+                        <input type="email" id="admin-email" value="admin@jmeletrica.com" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    </div>
+                    <div>
+                        <label for="whatsapp-number" class="block text-sm font-medium text-gray-300 mb-1">Número do WhatsApp (com código do país)</label>
+                        <input type="text" id="whatsapp-number" value="5582994267368" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    </div>
+                    <div class="border-t border-gray-700 pt-6">
+                        <button type="submit" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-lg font-bold hover:bg-yellow-300 transition-all duration-300">
+                            Salvar Alterações
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div id="service-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 modal-backdrop hidden opacity-0">
+    <div class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg m-4 modal-content transform scale-95">
+        <div class="flex justify-between items-center p-6 border-b border-gray-700"><h3 id="service-modal-title" class="text-xl font-semibold text-white"></h3><button class="text-gray-400 hover:text-white" data-close-modal><i data-feather="x" class="h-6 w-6"></i></button></div>
+        <form id="service-form" class="p-6 space-y-4"><input type="hidden" id="service-id"><div><label for="service-name" class="block text-sm font-medium text-gray-300 mb-1">Nome do Serviço</label><input type="text" id="service-name" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required></div><div><label for="service-description" class="block text-sm font-medium text-gray-300 mb-1">Descrição</label><textarea id="service-description" rows="4" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required></textarea></div><div class="flex justify-end pt-4"><button type="button" class="text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg mr-2" data-close-modal>Cancelar</button><button type="submit" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-yellow-300">Salvar Serviço</button></div></form>
+    </div>
+  </div>
+
+  <div id="machine-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 modal-backdrop hidden opacity-0">
+    <div class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg m-4 modal-content transform scale-95">
+        <div class="flex justify-between items-center p-6 border-b border-gray-700"><h3 id="machine-modal-title" class="text-xl font-semibold text-white"></h3><button class="text-gray-400 hover:text-white" data-close-modal><i data-feather="x" class="h-6 w-6"></i></button></div>
+        <form id="machine-form" class="p-6 space-y-4"><input type="hidden" id="machine-id"><div><label for="machine-name" class="block text-sm font-medium text-gray-300 mb-1">Nome da Máquina</label><input type="text" id="machine-name" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required></div><div><label for="machine-status" class="block text-sm font-medium text-gray-300 mb-1">Status</label><select id="machine-status" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required><option value="disponivel">Disponível</option><option value="alugada">Alugada</option><option value="manutencao">Manutenção</option></select></div><div class="flex justify-end pt-4"><button type="button" class="text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg mr-2" data-close-modal>Cancelar</button><button type="submit" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-yellow-300">Salvar Máquina</button></div></form>
+    </div>
+  </div>
+
+  <div id="gallery-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 modal-backdrop hidden opacity-0">
+    <div class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl m-4 modal-content transform scale-95">
+        <div class="flex justify-between items-center p-6 border-b border-gray-700"><h3 id="gallery-modal-title" class="text-xl font-semibold text-white">Gerenciar Galeria</h3><button class="text-gray-400 hover:text-white" data-close-modal><i data-feather="x" class="h-6 w-6"></i></button></div>
+        <div class="p-6">
+            <input type="hidden" id="gallery-service-id">
+            <button id="open-drive-picker" class="w-full bg-blue-600 text-white px-5 py-3 rounded-lg font-bold hover:bg-blue-700 flex items-center justify-center mb-6">
+                <i data-feather="folder" class="h-5 w-5 mr-3"></i> Selecionar do Google Drive
+            </button>
+            <div id="gallery-images-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[50vh] overflow-y-auto">
+                <!-- Gallery images for the selected service will be injected here -->
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Google API Client Library -->
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- GOOGLE DRIVE API CONFIGURATION ---
+      // IMPORTANTE: Substitua pelos seus próprios valores do Google Cloud Console.
+      const GOOGLE_API_KEY = 'SUA_CHAVE_DE_API_AQUI'; 
+      const GOOGLE_CLIENT_ID = 'SEU_ID_DE_CLIENTE_AQUI';
+      const GOOGLE_APP_ID = 'SEU_APP_ID_AQUI'; // O App ID é o número do projeto no Google Cloud
+      const SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
+      
+      let tokenClient;
+      let pickerApiLoaded = false;
+      let gisIsLoaded = false;
+
+      // --- INITIAL DATA (DATABASE SIMULATION) ---
+      let services = [
+        { id: 1, name: 'Quadros e Instalações', description: 'Montagem, modernização e manutenção...', gallery: ['https://placehold.co/800x600/1f2937/facc15?text=Quadro+1', 'https://placehold.co/800x600/1f2937/facc15?text=Quadro+2'] },
+        { id: 2, name: 'Automação e Pontes Rolantes', description: 'Manutenção completa em pontes rolantes...', gallery: ['https://placehold.co/800x600/1f2937/facc15?text=Ponte+Rolante'] }
+      ];
+
+      let machines = [
+        { id: 1, name: 'Máquina de Solda', status: 'disponivel' },
+        { id: 2, name: 'Martelete (15kg)', status: 'alugada' },
+        { id: 3, name: 'Compressor de Ar', status: 'manutencao' }
+      ];
+
+      // --- RENDER FUNCTIONS ---
+      const renderServiceTable = () => {
+        const tableBody = document.getElementById('service-table-body');
+        tableBody.innerHTML = '';
+        services.forEach(service => {
+          const row = `
+            <tr class="border-b border-gray-700">
+              <td class="p-4 font-medium">${service.name}</td>
+              <td class="p-4 text-gray-400">${service.description}</td>
+              <td class="p-4 text-center space-x-2">
+                <button class="text-blue-400 hover:text-blue-300 p-2" data-action="edit-service" data-id="${service.id}"><i data-feather="edit" class="h-5 w-5 pointer-events-none"></i></button>
+                <button class="text-red-400 hover:text-red-300 p-2" data-action="delete-service" data-id="${service.id}"><i data-feather="trash-2" class="h-5 w-5 pointer-events-none"></i></button>
+              </td>
+            </tr>`;
+          tableBody.insertAdjacentHTML('beforeend', row);
+        });
+        feather.replace();
+      };
+      
+      const renderMachineTable = () => {
+        const tableBody = document.getElementById('machine-table-body');
+        const statusClasses = {disponivel: 'status-disponivel',alugada: 'status-alugada',manutencao: 'status-manutencao'};
+        const statusText = {disponivel: 'Disponível',alugada: 'Alugada',manutencao: 'Manutenção'}
+        tableBody.innerHTML = '';
+        machines.forEach(machine => {
+          const row = `
+            <tr class="border-b border-gray-700">
+              <td class="p-4 font-medium">${machine.name}</td>
+              <td class="p-4"><span class="status-badge ${statusClasses[machine.status]}">${statusText[machine.status]}</span></td>
+              <td class="p-4 text-center space-x-2">
+                <button class="text-blue-400 hover:text-blue-300 p-2" data-action="edit-machine" data-id="${machine.id}"><i data-feather="edit" class="h-5 w-5 pointer-events-none"></i></button>
+                <button class="text-red-400 hover:text-red-300 p-2" data-action="delete-machine" data-id="${machine.id}"><i data-feather="trash-2" class="h-5 w-5 pointer-events-none"></i></button>
+              </td>
+            </tr>`;
+          tableBody.insertAdjacentHTML('beforeend', row);
+        });
+        feather.replace();
+      };
+
+      const renderGalleryServices = () => {
+        const grid = document.getElementById('gallery-services-grid');
+        grid.innerHTML = '';
+        services.forEach(service => {
+            const previewImages = service.gallery.slice(0, 3).map(url => 
+                `<img src="${url}" class="rounded-md aspect-square object-cover" alt="[Imagem de ${service.name}]">`
+            ).join('');
+            const card = `
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <h4 class="font-semibold text-yellow-400 mb-3">${service.name}</h4>
+                    <div class="grid grid-cols-3 gap-2 mb-3 min-h-[60px]">
+                        ${previewImages || '<p class="text-gray-500 text-sm col-span-3">Nenhuma imagem</p>'}
+                    </div>
+                    <button data-action="manage-gallery" data-id="${service.id}" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors">Gerenciar Imagens</button>
+                </div>`;
+            grid.insertAdjacentHTML('beforeend', card);
+        });
+      };
+
+      const renderGalleryModal = (serviceId) => {
+        const service = services.find(s => s.id == serviceId);
+        if (!service) return;
+
+        const grid = document.getElementById('gallery-images-grid');
+        document.getElementById('gallery-modal-title').textContent = `Gerenciar Galeria: ${service.name}`;
+        document.getElementById('gallery-service-id').value = serviceId;
+        grid.innerHTML = '';
+
+        service.gallery.forEach(url => {
+            const imageItem = `
+                <div class="gallery-image-container rounded-lg overflow-hidden">
+                    <img src="${url}" class="w-full h-full object-cover aspect-square" alt="[Imagem da galeria]">
+                    <div class="gallery-image-overlay">
+                        <button data-action="delete-gallery-image" data-service-id="${serviceId}" data-url="${url}" class="p-2 bg-red-600 text-white rounded-full hover:bg-red-700">
+                            <i data-feather="trash-2" class="h-5 w-5 pointer-events-none"></i>
+                        </button>
+                    </div>
+                </div>`;
+            grid.insertAdjacentHTML('beforeend', imageItem);
+        });
+        feather.replace();
+      };
+
+      // --- GOOGLE PICKER LOGIC ---
+      function gapiLoaded() {
+          gapi.load('client:picker', initializePicker);
+      }
+
+      function initializeGis() {
+          tokenClient = google.accounts.oauth2.initTokenClient({
+              client_id: GOOGLE_CLIENT_ID,
+              scope: SCOPES,
+              callback: '', // defined later
+          });
+          gisIsLoaded = true;
+      }
+
+      function initializePicker() {
+          pickerApiLoaded = true;
+      }
+
+      function handleAuthClick() {
+          if (!gisIsLoaded) {
+              console.error("Google Identity Service not loaded yet.");
+              return;
+          }
+          tokenClient.callback = async (resp) => {
+              if (resp.error !== undefined) {
+                  throw (resp);
+              }
+              createPicker();
+          };
+
+          if (gapi.client.getToken() === null) {
+              tokenClient.requestAccessToken({prompt: 'consent'});
+          } else {
+              tokenClient.requestAccessToken({prompt: ''});
+          }
+      }
+
+      function createPicker() {
+          if (!pickerApiLoaded || !gisIsLoaded) {
+              alert("A API do Google não foi carregada completamente.");
+              return;
+          }
+          
+          const view = new google.picker.View(google.picker.ViewId.PHOTOS);
+          view.setMimeTypes("image/png,image/jpeg,image/jpg");
+          
+          const picker = new google.picker.PickerBuilder()
+              .enableFeature(google.picker.Feature.NAV_HIDDEN)
+              .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+              .setAppId(GOOGLE_APP_ID)
+              .setOAuthToken(gapi.client.getToken().access_token)
+              .addView(view)
+              .setDeveloperKey(GOOGLE_API_KEY)
+              .setCallback(pickerCallback)
+              .build();
+          picker.setVisible(true);
+      }
+
+      function pickerCallback(data) {
+          if (data.action === google.picker.Action.PICKED) {
+              const serviceId = document.getElementById('gallery-service-id').value;
+              const service = services.find(s => s.id == serviceId);
+              if (!service) return;
+
+              data.docs.forEach(doc => {
+                  const imageUrl = `https://drive.google.com/uc?export=view&id=${doc.id}`;
+                  if (!service.gallery.includes(imageUrl)) {
+                      service.gallery.push(imageUrl);
+                  }
+              });
+              renderGalleryModal(serviceId);
+              renderGalleryServices();
+          }
+      }
+
+      // --- MODAL HANDLING ---
+      const serviceModal = document.getElementById('service-modal');
+      const machineModal = document.getElementById('machine-modal');
+      const galleryModal = document.getElementById('gallery-modal');
+      const serviceForm = document.getElementById('service-form');
+      const machineForm = document.getElementById('machine-form');
+
+      const openModal = (modal) => {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          modal.classList.remove('opacity-0');
+          modal.querySelector('.modal-content').classList.remove('scale-95');
+        }, 10);
+      };
+
+      const closeModal = (modal) => {
+        modal.classList.add('opacity-0');
+        modal.querySelector('.modal-content').classList.add('scale-95');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 300);
+      };
+
+      // --- CRUD OPERATIONS ---
+      document.getElementById('add-service-btn').addEventListener('click', () => {
+        serviceForm.reset();
+        document.getElementById('service-id').value = '';
+        document.getElementById('service-modal-title').textContent = 'Adicionar Novo Serviço';
+        openModal(serviceModal);
+      });
+
+      document.getElementById('add-machine-btn').addEventListener('click', () => {
+        machineForm.reset();
+        document.getElementById('machine-id').value = '';
+        document.getElementById('machine-modal-title').textContent = 'Adicionar Nova Máquina';
+        openModal(machineModal);
+      });
+      
+      serviceForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('service-id').value;
+        const name = document.getElementById('service-name').value;
+        const description = document.getElementById('service-description').value;
+        
+        if (id) {
+          const index = services.findIndex(s => s.id == id);
+          services[index] = { ...services[index], name, description };
+        } else {
+          const newId = services.length > 0 ? Math.max(...services.map(s => s.id)) + 1 : 1;
+          services.push({ id: newId, name, description, gallery: [] });
+        }
+        renderServiceTable();
+        renderGalleryServices();
+        closeModal(serviceModal);
+      });
+
+      machineForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('machine-id').value;
+        const name = document.getElementById('machine-name').value;
+        const status = document.getElementById('machine-status').value;
+        
+        if (id) {
+          const index = machines.findIndex(m => m.id == id);
+          machines[index] = { ...machines[index], name, status };
+        } else {
+          const newId = machines.length > 0 ? Math.max(...machines.map(m => m.id)) + 1 : 1;
+          machines.push({ id: newId, name, status });
+        }
+        renderMachineTable();
+        closeModal(machineModal);
+      });
+
+      document.getElementById('open-drive-picker').addEventListener('click', handleAuthClick);
+
+      // EVENT DELEGATION for actions
+      document.body.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (!button) return;
+
+        const action = button.dataset.action;
+        const id = button.dataset.id;
+
+        if (!action) return;
+
+        if (action === 'edit-service') {
+          const service = services.find(s => s.id == id);
+          document.getElementById('service-id').value = service.id;
+          document.getElementById('service-name').value = service.name;
+          document.getElementById('service-description').value = service.description;
+          document.getElementById('service-modal-title').textContent = 'Editar Serviço';
+          openModal(serviceModal);
+        }
+        if (action === 'edit-machine') {
+          const machine = machines.find(m => m.id == id);
+          document.getElementById('machine-id').value = machine.id;
+          document.getElementById('machine-name').value = machine.name;
+          document.getElementById('machine-status').value = machine.status;
+          document.getElementById('machine-modal-title').textContent = 'Editar Máquina';
+          openModal(machineModal);
+        }
+
+        if (action === 'delete-service') {
+          if (confirm('Tem a certeza que quer apagar este serviço?')) {
+            services = services.filter(s => s.id != id);
+            renderServiceTable();
+            renderGalleryServices();
+          }
+        }
+        if (action === 'delete-machine') {
+          if (confirm('Tem a certeza que quer apagar esta máquina?')) {
+            machines = machines.filter(m => m.id != id);
+            renderMachineTable();
+          }
+        }
+
+        if (action === 'manage-gallery') {
+            renderGalleryModal(id);
+            openModal(galleryModal);
+        }
+        if (action === 'delete-gallery-image') {
+            const serviceId = button.dataset.serviceId;
+            const urlToDelete = button.dataset.url;
+            const service = services.find(s => s.id == serviceId);
+            if (service) {
+                service.gallery = service.gallery.filter(url => url !== urlToDelete);
+                renderGalleryModal(serviceId);
+                renderGalleryServices();
+            }
+        }
+      });
+
+      // --- GENERAL SETUP ---
+      feather.replace();
+      
+      const trafficChartEl = document.getElementById('trafficChart');
+      if (trafficChartEl) {
+        const ctx = trafficChartEl.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(250, 204, 21, 0.5)');
+        gradient.addColorStop(1, 'rgba(250, 204, 21, 0)');
+        new Chart(ctx, { type: 'line', data: { labels: Array.from({ length: 30 }, (_, i) => { const d = new Date(); d.setDate(d.getDate() - (29 - i)); return `${d.getDate()}/${d.getMonth() + 1}`; }), datasets: [{ label: 'Visitas', data: Array.from({ length: 30 }, () => Math.floor(Math.random() * (80 - 20 + 1)) + 20), backgroundColor: gradient, borderColor: '#facc15', borderWidth: 2, pointBackgroundColor: '#facc15', pointBorderColor: '#111827', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#facc15', fill: true, tension: 0.4, }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#9ca3af' } }, x: { grid: { display: false }, ticks: { color: '#9ca3af' } } } } });
+      }
+
+      const sidebarLinks = document.querySelectorAll('.sidebar-link');
+      const contentSections = document.querySelectorAll('.content-section');
+      const pageTitle = document.getElementById('page-title');
+      const sidebar = document.getElementById('sidebar');
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const switchContent = (hash) => {
+        const targetId = hash.substring(1) + '-content';
+        contentSections.forEach(section => section.classList.add('hidden'));
+        const activeSection = document.getElementById(targetId);
+        if (activeSection) { activeSection.classList.remove('hidden'); } else { document.getElementById('dashboard-content').classList.remove('hidden'); }
+        sidebarLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === hash) { link.classList.add('active'); pageTitle.textContent = link.textContent.trim(); } });
+      };
+      sidebarLinks.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const hash = e.currentTarget.getAttribute('href'); switchContent(hash); if (window.innerWidth < 768) { sidebar.classList.add('-translate-x-full'); } }); });
+      switchContent('#dashboard');
+      mobileMenuToggle.addEventListener('click', () => { sidebar.classList.toggle('-translate-x-full'); });
+      document.querySelectorAll('[data-close-modal]').forEach(btn => { btn.addEventListener('click', () => { const modal = btn.closest('.modal-backdrop'); closeModal(modal); }); });
+      document.querySelectorAll('.modal-backdrop').forEach(modal => { modal.addEventListener('click', (e) => { if (e.target === modal) { closeModal(modal); } }); });
+
+      document.getElementById('logout-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('isAdminAuthenticated');
+        window.location.href = 'login.html';
+      });
+
+      // --- INITIAL RENDER ---
+      renderServiceTable();
+      renderMachineTable();
+      renderGalleryServices();
+
+      // Load Google scripts
+      const gapiScript = document.createElement('script');
+      gapiScript.src = 'https://apis.google.com/js/api.js';
+      gapiScript.async = true;
+      gapiScript.defer = true;
+      gapiScript.onload = gapiLoaded;
+      document.body.appendChild(gapiScript);
+
+      const gisScript = document.createElement('script');
+      gisScript.src = 'https://accounts.google.com/gsi/client';
+      gisScript.async = true;
+      gisScript.defer = true;
+      gisScript.onload = initializeGis;
+      document.body.appendChild(gisScript);
+    });
+  </script>
+
+</body>
+</html>
