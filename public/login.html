@@ -14,50 +14,79 @@
 </head>
 <body class="bg-gray-900 flex items-center justify-center h-screen">
 
-    <div class="w-full max-w-md bg-gray-800 rounded-xl shadow-2xl p-8 border border-yellow-500/20">
-        <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8">Acesso Restrito</h2>
+    <div class="w-full max-w-sm bg-gray-800 rounded-xl shadow-2xl p-8 border border-yellow-500/20 text-center">
+        <h2 class="text-3xl font-bold text-yellow-400 mb-2">Acesso Restrito</h2>
+        <p class="text-gray-400 mb-8">Faça login com a sua conta Google da organização.</p>
         
-        <form id="login-form">
-            <div class="mb-4">
-                <label for="username" class="block text-gray-300 text-sm font-medium mb-2">Utilizador</label>
-                <input type="text" id="username" name="username" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
-            </div>
-            
-            <div class="mb-6">
-                <label for="password" class="block text-gray-300 text-sm font-medium mb-2">Palavra-passe</label>
-                <input type="password" id="password" name="password" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
-            </div>
-            
-            <p id="error-message" class="text-red-400 text-sm mb-4 hidden"></p>
-
-            <div>
-                <button type="submit" class="w-full bg-yellow-400 text-gray-900 px-4 py-3 rounded-lg font-bold text-lg hover:bg-yellow-300 transition-all duration-300">
-                    Entrar
-                </button>
-            </div>
-        </form>
+        <div id="google-signin-button" class="flex justify-center"></div>
+        
+        <p id="error-message" class="text-red-400 text-sm mt-6 hidden"></p>
     </div>
 
+    <!-- Google Identity Services Library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <script>
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // --- CONFIGURAÇÃO ---
+        // IMPORTANTE: Substitua pelos seus próprios valores.
+        const GOOGLE_CLIENT_ID = '210677594794-qcdi8h83saube0iul6sut059462oj85n.apps.googleusercontent.com'; 
+        const ALLOWED_DOMAIN = 'jmeletrica-manutencao.com.br'; // Ex: 'jmeletrica.com'
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
-
-            
-
-            if (username === adminUser && password === adminPass) {
-                // Se o login for bem-sucedido, armazena um token de sessão.
-                sessionStorage.setItem('isAdminAuthenticated', 'true');
-                // Redireciona para o painel administrativo.
-                window.location.href = 'admin.html';
-            } else {
-                errorMessage.textContent = 'Utilizador ou palavra-passe inválidos.';
-                errorMessage.classList.remove('hidden');
+        // Função para descodificar o token JWT retornado pelo Google
+        function jwt_decode(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                return null;
             }
-        });
+        }
+
+        // Função chamada após o login bem-sucedido com o Google
+        function handleCredentialResponse(response) {
+            const errorMessage = document.getElementById('error-message');
+            const decodedToken = jwt_decode(response.credential);
+
+            if (!decodedToken) {
+                errorMessage.textContent = 'Erro ao validar o token de acesso.';
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            // Verifica se o domínio do e-mail (hosted domain) é o permitido
+            if (decodedToken.hd === ALLOWED_DOMAIN) {
+                // Armazena o token e o status da autenticação
+                sessionStorage.setItem('google_id_token', response.credential);
+                sessionStorage.setItem('isAdminAuthenticated', 'true');
+                window.location.href = 'admin.html'; // Redireciona para o painel
+            } else {
+                errorMessage.textContent = 'Acesso negado. Utilize uma conta da organização.';
+                errorMessage.classList.remove('hidden');
+                // Impede o login automático com contas não autorizadas
+                google.accounts.id.disableAutoSelect();
+            }
+        }
+
+        // Inicializa o cliente do Google Identity Services quando a janela carregar
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse
+            });
+
+            // Renderiza o botão de login do Google
+            google.accounts.id.renderButton(
+                document.getElementById('google-signin-button'),
+                { theme: 'outline', size: 'large', text: 'signin_with', shape: 'rectangular', logo_alignment: 'left' }
+            );
+
+            // Mostra o pop-up "One Tap" para login rápido
+            google.accounts.id.prompt(); 
+        };
     </script>
 
 </body>
