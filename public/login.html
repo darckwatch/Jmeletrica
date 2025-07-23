@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrativo | JM Elétrica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center h-screen">
+
+    <div class="w-full max-w-md bg-gray-800 rounded-xl shadow-2xl p-8 border border-yellow-500/20">
+        <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8">Acesso Restrito</h2>
+        
+        <form id="login-form">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-300 text-sm font-medium mb-2">Utilizador</label>
+                <input type="text" id="username" name="username" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
+            </div>
+            
+            <div class="mb-6">
+                <label for="password" class="block text-gray-300 text-sm font-medium mb-2">Palavra-passe</label>
+                <input type="password" id="password" name="password" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
+            </div>
+            
+            <p id="error-message" class="text-red-400 text-sm mb-4 hidden"></p>
+
+            <div>
+                <button type="submit" class="w-full bg-yellow-400 text-gray-900 px-4 py-3 rounded-lg font-bold text-lg hover:bg-yellow-300 transition-all duration-300">
+                    Entrar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // IMPORTANTE: Estas credenciais são apenas para demonstração.
+            // Para um ambiente de produção, use um sistema de autenticação seguro.
+            const adminUser = 'admin';
+            const adminPass = 'JM@2025'; // Altere esta palavra-passe
+
+            if (username === adminUser && password === adminPass) {
+                // Se o login for bem-sucedido, armazena um token de sessão.
+                sessionStorage.setItem('isAdminAuthenticated', 'true');
+                // Redireciona para o painel administrativo.
+                window.location.href = 'admin.html';
+            } else {
+                errorMessage.textContent = 'Utilizador ou palavra-passe inválidos.';
+                errorMessage.classList.remove('hidden');
+            }
+        });
+    </script>
+
+</body>
+</html>
