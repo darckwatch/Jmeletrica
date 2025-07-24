@@ -14,7 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    /* ... (os seus estilos CSS permanecem os mesmos) ... */
+    /* Custom styles for the admin panel */
     body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F3F4F6; }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #1f2937; }
@@ -76,7 +76,10 @@
         
         <!-- Dashboard Section -->
         <section id="dashboard-content" class="content-section">
-            <!-- ... (conteúdo do dashboard) ... -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+                <h3 class="font-semibold text-white mb-4">Tráfego do Site (Últimos 30 dias)</h3>
+                <canvas id="trafficChart"></canvas>
+            </div>
         </section>
 
         <!-- Services Section -->
@@ -121,13 +124,40 @@
             </div>
         </section>
         
-        <!-- ... (outras secções) ... -->
+        <!-- Other sections -->
       </main>
     </div>
   </div>
 
   <!-- Modals -->
-  <!-- ... (todos os modais permanecem os mesmos) ... -->
+  <div id="service-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 modal-backdrop hidden opacity-0">
+    <div class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg m-4 modal-content transform scale-95">
+        <div class="flex justify-between items-center p-6 border-b border-gray-700"><h3 id="service-modal-title" class="text-xl font-semibold text-white"></h3><button class="text-gray-400 hover:text-white" data-close-modal><i data-feather="x" class="h-6 w-6"></i></button></div>
+        <form id="service-form" class="p-6 space-y-4"><input type="hidden" id="service-id"><div><label for="service-name" class="block text-sm font-medium text-gray-300 mb-1">Nome do Serviço</label><input type="text" id="service-name" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required></div><div><label for="service-description" class="block text-sm font-medium text-gray-300 mb-1">Descrição</label><textarea id="service-description" rows="4" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required></textarea></div><div class="flex justify-end pt-4"><button type="button" class="text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg mr-2" data-close-modal>Cancelar</button><button type="submit" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-yellow-300">Salvar Serviço</button></div></form>
+    </div>
+  </div>
+
+  <div id="machine-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 modal-backdrop hidden opacity-0">
+    <div class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg m-4 modal-content transform scale-95">
+        <div class="flex justify-between items-center p-6 border-b border-gray-700"><h3 id="machine-modal-title" class="text-xl font-semibold text-white"></h3><button class="text-gray-400 hover:text-white" data-close-modal><i data-feather="x" class="h-6 w-6"></i></button></div>
+        <form id="machine-form" class="p-6 space-y-4"><input type="hidden" id="machine-id"><div><label for="machine-name" class="block text-sm font-medium text-gray-300 mb-1">Nome da Máquina</label><input type="text" id="machine-name" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required></div><div><label for="machine-status" class="block text-sm font-medium text-gray-300 mb-1">Status</label><select id="machine-status" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" required><option value="disponivel">Disponível</option><option value="alugada">Alugada</option><option value="manutencao">Manutenção</option></select></div><div class="flex justify-end pt-4"><button type="button" class="text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg mr-2" data-close-modal>Cancelar</button><button type="submit" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-yellow-300">Salvar Máquina</button></div></form>
+    </div>
+  </div>
+
+  <div id="gallery-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 modal-backdrop hidden opacity-0">
+    <div class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-3xl m-4 modal-content transform scale-95">
+        <div class="flex justify-between items-center p-6 border-b border-gray-700"><h3 id="gallery-modal-title" class="text-xl font-semibold text-white">Gerenciar Galeria</h3><button class="text-gray-400 hover:text-white" data-close-modal><i data-feather="x" class="h-6 w-6"></i></button></div>
+        <div class="p-6">
+            <input type="hidden" id="gallery-service-id">
+            <button id="open-drive-picker" class="w-full bg-blue-600 text-white px-5 py-3 rounded-lg font-bold hover:bg-blue-700 flex items-center justify-center mb-6">
+                <i data-feather="folder" class="h-5 w-5 mr-3"></i> Selecionar do Google Drive
+            </button>
+            <div id="gallery-images-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[50vh] overflow-y-auto">
+                <!-- Gallery images for the selected service will be injected here -->
+            </div>
+        </div>
+    </div>
+  </div>
 
   <!-- Google API Client Library -->
   <script src="https://apis.google.com/js/api.js" async defer></script>
@@ -139,42 +169,80 @@
     import { getAuth, GoogleAuthProvider, signInWithCredential, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
     import { carregarDados, guardarDados, apagarDados } from './database.js';
 
-    // --- CONFIGURAÇÃO DO FIREBASE ---
+    // --- CONFIGURAÇÃO DO FIREBASE (deve corresponder ao database.js) ---
     const firebaseConfig = {
-        apiKey: "AIzaSyD4WkSlsmYKwLu2mbSk_V-ENNPFTVbvLf0",
-        authDomain: "jmeletrica-site.firebaseapp.com",
-        projectId: "jmeletrica-site",
-        storageBucket: "jmeletrica-site.appspot.com",
-        messagingSenderId: "755470158837",
-        appId: "1:755470158837:web:a5889c171ece86ff8eaebc"
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_AUTH_DOMAIN",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_STORAGE_BUCKET",
+      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+      appId: "SEU_APP_ID"
     };
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
     // --- VERIFICAÇÃO DE SEGURANÇA ---
-    (function() {
+    (async function() {
         const idToken = sessionStorage.getItem('google_id_token');
         if (!idToken) {
             window.location.href = 'login.html';
             return;
         }
-        const credential = GoogleAuthProvider.credential(idToken);
-        signInWithCredential(auth, credential).catch((error) => {
+        try {
+            const credential = GoogleAuthProvider.credential(idToken);
+            await signInWithCredential(auth, credential);
+        } catch (error) {
             console.error("Erro de autenticação:", error);
             sessionStorage.clear();
             window.location.href = 'login.html';
-        });
+        }
     })();
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       let services = [];
       let machines = [];
 
-      // --- FUNÇÕES DE RENDERIZAÇÃO (permanecem as mesmas) ---
-      const renderServiceTable = () => { /* ... */ };
-      const renderMachineTable = () => { /* ... */ };
-      const renderGalleryServices = () => { /* ... */ };
-      const renderGalleryModal = () => { /* ... */ };
+      // --- FUNÇÕES DE RENDERIZAÇÃO ---
+      const renderServiceTable = () => {
+        const tableBody = document.getElementById('service-table-body');
+        tableBody.innerHTML = '';
+        services.forEach(service => {
+          const row = `
+            <tr class="border-b border-gray-700">
+              <td class="p-4 font-medium">${service.name}</td>
+              <td class="p-4 text-gray-400">${service.description}</td>
+              <td class="p-4 text-center space-x-2">
+                <button class="text-blue-400 hover:text-blue-300 p-2" data-action="edit-service" data-id="${service.id}"><i data-feather="edit" class="h-5 w-5 pointer-events-none"></i></button>
+                <button class="text-red-400 hover:text-red-300 p-2" data-action="delete-service" data-id="${service.id}"><i data-feather="trash-2" class="h-5 w-5 pointer-events-none"></i></button>
+              </td>
+            </tr>`;
+          tableBody.insertAdjacentHTML('beforeend', row);
+        });
+        feather.replace();
+      };
+      
+      const renderMachineTable = () => {
+        const tableBody = document.getElementById('machine-table-body');
+        const statusClasses = {disponivel: 'status-disponivel',alugada: 'status-alugada',manutencao: 'status-manutencao'};
+        const statusText = {disponivel: 'Disponível',alugada: 'Alugada',manutencao: 'Manutenção'}
+        tableBody.innerHTML = '';
+        machines.forEach(machine => {
+          const row = `
+            <tr class="border-b border-gray-700">
+              <td class="p-4 font-medium">${machine.name}</td>
+              <td class="p-4"><span class="status-badge ${statusClasses[machine.status]}">${statusText[machine.status]}</span></td>
+              <td class="p-4 text-center space-x-2">
+                <button class="text-blue-400 hover:text-blue-300 p-2" data-action="edit-machine" data-id="${machine.id}"><i data-feather="edit" class="h-5 w-5 pointer-events-none"></i></button>
+                <button class="text-red-400 hover:text-red-300 p-2" data-action="delete-machine" data-id="${machine.id}"><i data-feather="trash-2" class="h-5 w-5 pointer-events-none"></i></button>
+              </td>
+            </tr>`;
+          tableBody.insertAdjacentHTML('beforeend', row);
+        });
+        feather.replace();
+      };
+
+      const renderGalleryServices = () => { /* ... (função completa aqui) ... */ };
+      const renderGalleryModal = () => { /* ... (função completa aqui) ... */ };
 
       // --- CARREGAMENTO E POPULAÇÃO INICIAL DOS DADOS ---
       async function popularDadosIniciais() {
@@ -190,22 +258,16 @@
             { name: 'Máquina de solda', status: 'disponivel' }, { name: 'Martelete (3kg)', status: 'disponivel' }, { name: 'Martelete (15kg)', status: 'disponivel' }, { name: 'Furadeira', status: 'disponivel' }, { name: 'Serra mármore', status: 'disponivel' }, { name: 'Lixadeira', status: 'disponivel' }, { name: 'Compressor', status: 'disponivel' }, { name: 'Soprador térmico', status: 'disponivel' }, { name: 'Repuxadeira', status: 'disponivel' }, { name: 'Plaina', status: 'disponivel' }
           ];
 
-          for (const servico of servicosIniciais) {
-              await guardarDados('servicos', servico);
-          }
-          for (const maquina of maquinasIniciais) {
-              await guardarDados('maquinas', maquina);
-          }
+          for (const servico of servicosIniciais) { await guardarDados('servicos', servico); }
+          for (const maquina of maquinasIniciais) { await guardarDados('maquinas', maquina); }
       }
 
       async function carregarTudo() {
           services = await carregarDados('servicos');
           machines = await carregarDados('maquinas');
 
-          // Se as coleções estiverem vazias, popula com os dados iniciais
           if (services.length === 0 && machines.length === 0) {
               await popularDadosIniciais();
-              // Recarrega os dados após a população
               services = await carregarDados('servicos');
               machines = await carregarDados('maquinas');
           }
@@ -215,7 +277,8 @@
           renderGalleryServices();
       }
 
-      // --- OPERAÇÕES CRUD (Agora usam as funções do database.js) ---
+      // --- OPERAÇÕES CRUD ---
+      const serviceForm = document.getElementById('service-form');
       serviceForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const id = document.getElementById('service-id').value;
@@ -223,7 +286,6 @@
         const description = document.getElementById('service-description').value;
         
         const dados = { name, description };
-        // Mantém a galeria existente ao editar
         if (id) {
             const servicoExistente = services.find(s => s.id === id);
             dados.gallery = servicoExistente.gallery || [];
@@ -233,16 +295,28 @@
 
         await guardarDados('servicos', dados, id);
         await carregarTudo();
-        closeModal(serviceModal);
+        closeModal(document.getElementById('service-modal'));
       });
       
-      // ... (adapte as outras funções de CRUD da mesma forma, usando async/await)
+      const machineForm = document.getElementById('machine-form');
+      machineForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('machine-id').value;
+        const name = document.getElementById('machine-name').value;
+        const status = document.getElementById('machine-status').value;
+        
+        const dados = { name, status };
+        await guardarDados('maquinas', dados, id);
+        await carregarTudo();
+        closeModal(document.getElementById('machine-modal'));
+      });
 
       document.body.addEventListener('click', async (e) => {
         const button = e.target.closest('button');
         if (!button) return;
         const action = button.dataset.action;
         const id = button.dataset.id;
+        if (!action || !id) return;
 
         if (action === 'delete-service') {
           if (confirm('Tem a certeza que quer apagar este serviço?')) {
@@ -250,7 +324,12 @@
             await carregarTudo();
           }
         }
-        // ... (adapte as outras ações)
+        if (action === 'delete-machine') {
+          if (confirm('Tem a certeza que quer apagar esta máquina?')) {
+            await apagarDados('maquinas', id);
+            await carregarTudo();
+          }
+        }
       });
 
 
@@ -266,8 +345,7 @@
       });
 
       // --- INICIALIZAÇÃO ---
-      carregarTudo();
-      // ... (resto do seu código de inicialização)
+      await carregarTudo();
     });
   </script>
 

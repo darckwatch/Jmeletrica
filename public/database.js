@@ -4,16 +4,15 @@ import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, addDoc } fro
 
 // --- CONFIGURAÇÃO DO FIREBASE ---
 // IMPORTANTE: Cole aqui o objeto firebaseConfig que você copiou da consola do Firebase.
- const firebaseConfig = {
-    apiKey: "AIzaSyD4WkSlsmYKwLu2mbSk_V-ENNPFTVbvLf0",
+const firebaseConfig = {
+  apiKey: "AIzaSyD4WkSlsmYKwLu2mbSk_V-ENNPFTVbvLf0",
     authDomain: "jmeletrica-site.firebaseapp.com",
     projectId: "jmeletrica-site",
     storageBucket: "jmeletrica-site.firebasestorage.app",
     messagingSenderId: "755470158837",
     appId: "1:755470158837:web:a5889c171ece86ff8eaebc",
     measurementId: "G-DT582REN65"
-  };
-
+};
 
 // Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
