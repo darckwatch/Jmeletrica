@@ -115,7 +115,7 @@
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex space-x-8">
           <a href="#servicos" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Serviços</a>
-          <a href="#assistencia" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Assistência</a>
+          <a href="#galeria" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Galeria</a>
           <a href="#diagnostico-ia" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Diagnóstico IA</a>
           <a href="#contato" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Contato</a>
           <a href="login.html" title="Acesso Administrativo" class="text-gray-600 hover:text-yellow-400 transition-colors duration-300">
@@ -137,7 +137,7 @@
     <div id="mobile-menu" class="md:hidden hidden">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         <a href="#servicos" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Serviços</a>
-        <a href="#assistencia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Assistência</a>
+        <a href="#galeria" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Galeria</a>
         <a href="#diagnostico-ia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Diagnóstico IA</a>
         <a href="#contato" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Contato</a>
       </div>
@@ -307,14 +307,103 @@
     <!-- Authorized Service Section -->
    
   
+    <section id="galeria" class="py-20 sm:py-28 bg-gray-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center fade-in-section">
+          <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Galeria por Categoria</h2>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Mostramos aqui as categorias de imagens exatamente como estão organizadas nas pastas da galeria.</p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-section">
+          <a href="/galeria/compressores/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/compressores/Compressor de Ar 15-150 LBS-127-220V - Motomil.webp" alt="Compressores" class="service-card-image">
+            <i data-feather="cloud" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Compressores</h3>
+            <p class="text-gray-400">Manutenção e aluguel de compressores industriais e equipamentos de ar comprimido.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/esmerilhadeira/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/esmerilhadeira/makita.webp" alt="Esmerilhadeira" class="service-card-image">
+            <i data-feather="scissors" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Esmerilhadeiras</h3>
+            <p class="text-gray-400">Ferramentas para corte e acabamento em metal com modelos Bosch, Makita, Dewalt e Wesco.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/extrusoras/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/extrusoras/maquina extrusora solda plastico industrial.webp" alt="Extrusoras" class="service-card-image">
+            <i data-feather="credit-card" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Extrusoras</h3>
+            <p class="text-gray-400">Projetos e serviços com extrusoras de solda plástica para indústria e reparos.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/geradores/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/geradores/geradores de energia cat.jfif" alt="Geradores" class="service-card-image">
+            <i data-feather="battery" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Geradores</h3>
+            <p class="text-gray-400">Soluções para geradores de energia, manutenção e assistência técnica.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/lixadeira/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/lixadeira/Lixadeira Makita.webp" alt="Lixadeiras" class="service-card-image">
+            <i data-feather="tool" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Lixadeiras</h3>
+            <p class="text-gray-400">Trabalho com lixadeiras orbitais, de parede e demais ferramentas de acabamento.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/parafusadeira/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/parafusadeira/Parafusadeira e Furadeira de Impacto DEWALT___.jpg" alt="Parafusadeiras" class="service-card-image">
+            <i data-feather="pen-tool" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Parafusadeiras</h3>
+            <p class="text-gray-400">Parafusadeiras, furadeiras e ferramentas elétricas para montagem e reparos.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/maquinas de solda diversas marcas e modelos/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/maquinas de solda diversas marcas e modelos/Inversora De Solda Mig 160a Intech Machine Smig160 220v.jfif" alt="Máquinas de Solda" class="service-card-image">
+            <i data-feather="wind" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Máquinas de Solda</h3>
+            <p class="text-gray-400">Galeria de máquinas de solda variadas com imagens por marca e modelo.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/serra marmore/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/serra marmore/vonder.webp" alt="Serra Mármore" class="service-card-image">
+            <i data-feather="rotate-cw" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Serra Mármore</h3>
+            <p class="text-gray-400">Fotos e serviços com serras mármore para cortes em pedra e concreto.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
     <!-- AI Diagnostic Tool Section -->
-  
-        <!-- Result Display -->
-        <div id="ai-result" class="mt-8 text-left max-w-2xl mx-auto hidden">
-          <div id="loader" class="mx-auto loader hidden"></div>
-          <div id="result-content" class="bg-gray-700 p-6 rounded-lg border border-yellow-500/30">
-            <!-- Content will be injected here by JavaScript -->
+    <section id="diagnostico-ia" class="py-20 sm:py-28 bg-gray-800">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center fade-in-section">
+          <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Diagnóstico por IA</h2>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Descreva o problema e receba uma análise preliminar com possível serviço recomendado.</p>
+        </div>
+
+        <div class="mt-12 grid gap-8 lg:grid-cols-[1.5fr_1fr] fade-in-section">
+          <div class="bg-gray-900 p-8 rounded-3xl border border-yellow-500/20 shadow-lg">
+            <label for="problem-input" class="block text-sm font-semibold text-gray-300 mb-3">Descreva o problema</label>
+            <textarea id="problem-input" rows="6" class="w-full rounded-2xl border border-gray-700 bg-gray-950/70 px-4 py-4 text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-yellow-400 focus:outline-none" placeholder="Ex: máquina de solda não liga, motor faz barulho ou quadro desarma repetidamente"></textarea>
+            <button id="analyze-button" class="mt-6 w-full inline-flex justify-center items-center gap-3 rounded-2xl bg-yellow-400 px-6 py-4 text-lg font-semibold text-gray-900 transition hover:bg-yellow-300">Analisar Problema</button>
+          </div>
+
+          <div class="bg-gray-900 p-8 rounded-3xl border border-yellow-500/20 shadow-lg">
+            <h3 class="text-xl font-bold text-yellow-400 mb-4">Resultado do Diagnóstico</h3>
+            <div id="ai-result" class="space-y-4 hidden">
+              <div id="loader" class="mx-auto loader hidden"></div>
+              <div id="result-content" class="bg-gray-800 p-6 rounded-xl text-gray-200"></div>
+            </div>
+            <p id="ai-placeholder" class="text-gray-400">Depois de enviar o problema, você verá aqui uma análise preliminar com possíveis causas e serviço recomendado.</p>
           </div>
         </div>
       </div>
@@ -363,7 +452,7 @@
           <h4 class="text-lg font-semibold text-white">Links Rápidos</h4>
           <ul class="space-y-2">
             <li><a href="#servicos" class="text-gray-400 hover:text-yellow-400 transition">Serviços</a></li>
-            <li><a href="#assistencia" class="text-gray-400 hover:text-yellow-400 transition">Assistência</a></li>
+            <li><a href="#galeria" class="text-gray-400 hover:text-yellow-400 transition">Galeria</a></li>
             <li><a href="#contato" class="text-gray-400 hover:text-yellow-400 transition">Contato</a></li>
             <li> <a href="/criartabela" title="Criar tabelas" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Criar Tabelas</a></li>
           </ul>
