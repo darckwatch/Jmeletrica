@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeria | JM Elétrica</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F3F4F6; }
+    .service-card { transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; }
+    .service-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(250, 204, 21, 0.12); }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+  <header class="bg-gray-950 border-b border-yellow-500/20 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+      <a href="/" class="text-3xl font-bold text-yellow-400">JM Elétrica</a>
+      <nav class="flex flex-wrap items-center gap-4 text-gray-300">
+        <a href="/" class="hover:text-yellow-400 transition">Início</a>
+        <a href="/galeria/" class="hover:text-yellow-400 transition">Galeria</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <section class="text-center mb-16">
+      <p class="text-sm uppercase tracking-[0.3em] text-yellow-400 mb-4">Galeria Completa</p>
+      <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">Galeria por Categoria</h1>
+      <p class="text-gray-400 max-w-3xl mx-auto">Navegue pelas categorias organizadas pelas pastas do site. Cada página mostra as fotos correspondentes à categoria.</p>
+    </section>
+    <section class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+
+          <a href="/galeria/compressores/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/compressores/chiaperini%20Compressor%20de%20Ar%20Industrial%20Motor%20Blindado%2060.webp" alt="Compressores" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="cloud" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Compressores</span>
+            </div>
+            <p class="text-gray-400">Manutenção e aluguel de compressores industriais e equipamentos de ar comprimido.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/esmerilhadeira/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/esmerilhadeira/bosch.png" alt="Esmerilhadeiras" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="scissors" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Esmerilhadeiras</span>
+            </div>
+            <p class="text-gray-400">Esmerilhadeiras e acessórios para corte, desbaste e acabamento.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/extrusoras/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/extrusoras/index.html" alt="Extrusoras" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="cpu" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Extrusoras</span>
+            </div>
+            <p class="text-gray-400">Extrusoras de solda plástica para indústria e reparos.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/fotos/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/fotos/carregadorBateria1.jpg" alt="Fotos Gerais" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="image" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Fotos Gerais</span>
+            </div>
+            <p class="text-gray-400">Galeria geral de serviços, equipamentos e projetos realizados.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/geradores/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/geradores/gerador%20de%20energia%20branco%20B4T%203500.webp" alt="Geradores" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="battery" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Geradores</span>
+            </div>
+            <p class="text-gray-400">Geradores de energia e sistemas de energia de reserva.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/lixadeira/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/lixadeira/index.html" alt="Lixadeiras" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="award" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Lixadeiras</span>
+            </div>
+            <p class="text-gray-400">Lixadeiras orbitais, de parede e outras ferramentas de acabamento.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/maquinas%20de%20solda%20diversas%20marcas%20e%20modelos/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/maquinas%20de%20solda%20diversas%20marcas%20e%20modelos/balmer%20vulcano%20mig%20465.webp" alt="Máquinas de Solda" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="zap" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Máquinas de Solda</span>
+            </div>
+            <p class="text-gray-400">Máquinas de solda por marca e modelo com foco em manutenção e aluguel.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/marteletes%20variados/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/marteletes%20variados/bosch%2030%20kg.jpg" alt="Marteletes" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="hammer" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Marteletes</span>
+            </div>
+            <p class="text-gray-400">Marteletes elétricos e acessórios para trabalhos pesados.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/motores/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/motores/index.html" alt="Motores" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="refresh-cw" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Motores</span>
+            </div>
+            <p class="text-gray-400">Motores elétricos e peças para rebobinamento e manutenção.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/parafusadeira/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/parafusadeira/Black-Decker.webp" alt="Parafusadeiras" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="tool" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Parafusadeiras</span>
+            </div>
+            <p class="text-gray-400">Parafusadeiras e furadeiras de impacto para diversos serviços.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/politrz/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/politrz/bosch.jpg" alt="Politrizes" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="circle" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Politrizes</span>
+            </div>
+            <p class="text-gray-400">Politrizes para polimento e acabamento em metais e superfícies.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/repuxadeira/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/repuxadeira/index.html" alt="Repuxadeiras" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="corner-up-left" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Repuxadeiras</span>
+            </div>
+            <p class="text-gray-400">Repuxadeiras e spotters para funilaria e chaparias.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+
+          <a href="/galeria/serra%20marmore/" class="service-card bg-gray-900 p-8 rounded-3xl shadow-xl hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/serra%20marmore/black%2Bdecker.jpg" alt="Serra Mármore" class="h-52 w-full object-cover rounded-2xl mb-5">
+            <div class="flex items-center gap-3 mb-4 text-yellow-400">
+              <i data-feather="rotate-cw" class="h-8 w-8"></i>
+              <span class="text-lg font-semibold">Serra Mármore</span>
+            </div>
+            <p class="text-gray-400">Serras mármore e ferramentas de corte para pedra e concreto.</p>
+            <span class="mt-6 inline-block font-semibold text-yellow-400">Ver categoria →</span>
+          </a>
+    </section>
+  </main>
+
+  <footer class="bg-black border-t border-yellow-500/20 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">&copy; 2026 JM Elétrica. Todas as imagens pertencem ao acervo da empresa.</div>
+  </footer>
+
+  <script>feather.replace(); lightbox.option({ 'resizeDuration': 200, 'wrapAround': true, 'albumLabel': 'Imagem %1 de %2' });</script>
+</body>
+</html>
