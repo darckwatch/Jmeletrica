@@ -115,7 +115,7 @@
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex space-x-8">
           <a href="#servicos" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Serviços</a>
-          <a href="/galeria/" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Galeria</a>
+          <a href="#historia" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Nossa História</a>
           <a href="#diagnostico-ia" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Diagnóstico IA</a>
           <a href="#contato" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Contato</a>
           <a href="login.html" title="Acesso Administrativo" class="text-gray-600 hover:text-yellow-400 transition-colors duration-300">
@@ -137,7 +137,7 @@
     <div id="mobile-menu" class="md:hidden hidden">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         <a href="#servicos" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Serviços</a>
-        <a href="/galeria/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Galeria</a>
+        <a href="#historia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Nossa História</a>
         <a href="#diagnostico-ia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Diagnóstico IA</a>
         <a href="#contato" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Contato</a>
       </div>
@@ -169,10 +169,10 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center fade-in-section">
           <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Nossos Serviços</h2>
-          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Clique num serviço para ver exemplos do nosso trabalho.</p>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Explore todos os nossos serviços e categorias de equipamentos. Clique em qualquer um para ver exemplos do nosso trabalho.</p>
         </div>
 
-        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-section">
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 fade-in-section">
           
           <!-- Serviço 1: Quadros e Instalações -->
           <div class="h-full">
@@ -300,84 +300,171 @@
             </div>
           </div>
 
-        </div>
-      </div>
-    </section>
-
-    <!-- Authorized Service Section -->
-   
-  
-    <section id="galeria" class="py-20 sm:py-28 bg-gray-900">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center fade-in-section">
-          <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Galeria por Categoria</h2>
-          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Mostramos aqui as categorias de imagens exatamente como estão organizadas nas pastas da galeria.</p>
-        </div>
-
-        <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-section">
+          <!-- Categoria: Compressores -->
           <a href="/galeria/compressores/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
             <img src="/galeria/compressores/Compressor de Ar 15-150 LBS-127-220V - Motomil.webp" alt="Compressores" class="service-card-image">
             <i data-feather="cloud" class="h-10 w-10 text-yellow-400 mb-4"></i>
             <h3 class="text-xl font-bold text-white mb-3">Compressores</h3>
-            <p class="text-gray-400">Manutenção e aluguel de compressores industriais e equipamentos de ar comprimido.</p>
+            <p class="text-gray-400 flex-grow">Manutenção e aluguel de compressores industriais e equipamentos de ar comprimido.</p>
             <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
           </a>
 
+          <!-- Categoria: Esmerilhadeiras -->
           <a href="/galeria/esmerilhadeira/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
             <img src="/galeria/esmerilhadeira/makita.webp" alt="Esmerilhadeira" class="service-card-image">
             <i data-feather="scissors" class="h-10 w-10 text-yellow-400 mb-4"></i>
             <h3 class="text-xl font-bold text-white mb-3">Esmerilhadeiras</h3>
-            <p class="text-gray-400">Ferramentas para corte e acabamento em metal com modelos Bosch, Makita, Dewalt e Wesco.</p>
+            <p class="text-gray-400 flex-grow">Ferramentas para corte e acabamento em metal com modelos Bosch, Makita, Dewalt e Wesco.</p>
             <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
           </a>
 
+          <!-- Categoria: Extrusoras -->
           <a href="/galeria/extrusoras/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
             <img src="/galeria/extrusoras/maquina extrusora solda plastico industrial.webp" alt="Extrusoras" class="service-card-image">
-            <i data-feather="credit-card" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <i data-feather="cpu" class="h-10 w-10 text-yellow-400 mb-4"></i>
             <h3 class="text-xl font-bold text-white mb-3">Extrusoras</h3>
-            <p class="text-gray-400">Projetos e serviços com extrusoras de solda plástica para indústria e reparos.</p>
+            <p class="text-gray-400 flex-grow">Projetos e serviços com extrusoras de solda plástica para indústria e reparos.</p>
             <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
           </a>
 
+          <!-- Categoria: Geradores -->
           <a href="/galeria/geradores/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
             <img src="/galeria/geradores/geradores de energia cat.jfif" alt="Geradores" class="service-card-image">
             <i data-feather="battery" class="h-10 w-10 text-yellow-400 mb-4"></i>
             <h3 class="text-xl font-bold text-white mb-3">Geradores</h3>
-            <p class="text-gray-400">Soluções para geradores de energia, manutenção e assistência técnica.</p>
+            <p class="text-gray-400 flex-grow">Soluções para geradores de energia, manutenção e assistência técnica.</p>
             <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
           </a>
 
+          <!-- Categoria: Lixadeiras -->
           <a href="/galeria/lixadeira/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
             <img src="/galeria/lixadeira/Lixadeira Makita.webp" alt="Lixadeiras" class="service-card-image">
-            <i data-feather="tool" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <i data-feather="award" class="h-10 w-10 text-yellow-400 mb-4"></i>
             <h3 class="text-xl font-bold text-white mb-3">Lixadeiras</h3>
-            <p class="text-gray-400">Trabalho com lixadeiras orbitais, de parede e demais ferramentas de acabamento.</p>
+            <p class="text-gray-400 flex-grow">Trabalho com lixadeiras orbitais, de parede e demais ferramentas de acabamento.</p>
             <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
           </a>
 
+          <!-- Categoria: Parafusadeiras -->
           <a href="/galeria/parafusadeira/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
             <img src="/galeria/parafusadeira/Parafusadeira e Furadeira de Impacto DEWALT___.jpg" alt="Parafusadeiras" class="service-card-image">
-            <i data-feather="pen-tool" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <i data-feather="tool" class="h-10 w-10 text-yellow-400 mb-4"></i>
             <h3 class="text-xl font-bold text-white mb-3">Parafusadeiras</h3>
-            <p class="text-gray-400">Parafusadeiras, furadeiras e ferramentas elétricas para montagem e reparos.</p>
+            <p class="text-gray-400 flex-grow">Parafusadeiras, furadeiras e ferramentas elétricas para montagem e reparos.</p>
             <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
           </a>
 
+          <!-- Categoria: Máquinas de Solda -->
           <a href="/galeria/maquinas de solda diversas marcas e modelos/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
             <img src="/galeria/maquinas de solda diversas marcas e modelos/Inversora De Solda Mig 160a Intech Machine Smig160 220v.jfif" alt="Máquinas de Solda" class="service-card-image">
-            <i data-feather="wind" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <i data-feather="zap" class="h-10 w-10 text-yellow-400 mb-4"></i>
             <h3 class="text-xl font-bold text-white mb-3">Máquinas de Solda</h3>
-            <p class="text-gray-400">Galeria de máquinas de solda variadas com imagens por marca e modelo.</p>
+            <p class="text-gray-400 flex-grow">Galeria de máquinas de solda variadas com imagens por marca e modelo.</p>
             <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
           </a>
 
+          <!-- Categoria: Marteletes -->
+          <a href="/galeria/marteletes variados/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/marteletes variados/makita.jpg" alt="Marteletes" class="service-card-image">
+            <i data-feather="hammer" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Marteletes</h3>
+            <p class="text-gray-400 flex-grow">Marteletes elétricos e acessórios para trabalhos pesados em diversos modelos.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <!-- Categoria: Motores -->
+          <a href="/galeria/motores/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/motores/MOTOR 5CV 2P.webp" alt="Motores" class="service-card-image">
+            <i data-feather="refresh-cw" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Motores</h3>
+            <p class="text-gray-400 flex-grow">Motores elétricos e peças para rebobinamento e manutenção industrial.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <!-- Categoria: Politrizes -->
+          <a href="/galeria/politrz/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/politrz/dewalt.webp" alt="Politrizes" class="service-card-image">
+            <i data-feather="circle" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Politrizes</h3>
+            <p class="text-gray-400 flex-grow">Politrizes para polimento e acabamento em metais e superfícies diversas.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <!-- Categoria: Repuxadeiras -->
+          <a href="/galeria/repuxadeira/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
+            <img src="/galeria/repuxadeira/repuxadeira_spotter- band 9000.webp" alt="Repuxadeiras" class="service-card-image">
+            <i data-feather="corner-up-left" class="h-10 w-10 text-yellow-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-3">Repuxadeiras</h3>
+            <p class="text-gray-400 flex-grow">Repuxadeiras e spotters para funilaria e chaparias com tecnologia avançada.</p>
+            <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
+          </a>
+
+          <!-- Categoria: Serra Mármore -->
           <a href="/galeria/serra marmore/" class="service-card bg-gray-900 p-8 rounded-xl shadow-lg hover:bg-gray-800 transition-colors duration-300">
             <img src="/galeria/serra marmore/vonder.webp" alt="Serra Mármore" class="service-card-image">
             <i data-feather="rotate-cw" class="h-10 w-10 text-yellow-400 mb-4"></i>
             <h3 class="text-xl font-bold text-white mb-3">Serra Mármore</h3>
-            <p class="text-gray-400">Fotos e serviços com serras mármore para cortes em pedra e concreto.</p>
+            <p class="text-gray-400 flex-grow">Fotos e serviços com serras mármore para cortes em pedra e concreto.</p>
             <span class="text-yellow-400 font-semibold mt-4 inline-block">Ver categoria →</span>
           </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Nossa História Section -->
+    <section id="historia" class="py-20 sm:py-28 bg-gray-900">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center fade-in-section mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-4">Nossa História</h2>
+          <p class="text-lg text-gray-400">Conheça a trajetória da JM Elétrica</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 fade-in-section items-center">
+          <div class="space-y-6 text-gray-300 leading-relaxed">
+            <p>
+              A <span class="text-yellow-400 font-semibold">JM Elétrica</span> nasceu do compromisso com excelência e inovação no segmento de soluções elétricas industriais e residenciais. Com <span class="text-yellow-400 font-semibold">anos de experiência</span>, nos consolidamos como uma empresa confiável e referência no mercado de Alagoas.
+            </p>
+            <p>
+              Nossa equipe é formada por <span class="text-yellow-400 font-semibold">técnicos especializados</span> e apaixonados pelo que fazem. Cada projeto executado reflete nosso dedicação em entregar qualidade, segurança e pontualidade em todos os serviços.
+            </p>
+            <p>
+              Oferecemos desde manutenção corretiva e preventiva, até projetos completos de automação e instalação elétrica. Nosso diferencial está no <span class="text-yellow-400 font-semibold">atendimento personalizado</span> e na busca constante por tecnologias que aprimorem nossos serviços.
+            </p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 p-8 rounded-2xl border border-yellow-500/30">
+            <div class="space-y-6">
+              <div class="flex items-start gap-4">
+                <i data-feather="check-circle" class="h-6 w-6 text-yellow-400 flex-shrink-0 mt-1"></i>
+                <div>
+                  <h4 class="text-white font-bold text-lg">Expertise</h4>
+                  <p class="text-gray-400 text-sm">Técnicos certificados em múltiplas disciplinas</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <i data-feather="check-circle" class="h-6 w-6 text-yellow-400 flex-shrink-0 mt-1"></i>
+                <div>
+                  <h4 class="text-white font-bold text-lg">Comprometimento</h4>
+                  <p class="text-gray-400 text-sm">Pontualidade e qualidade em cada projeto</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <i data-feather="check-circle" class="h-6 w-6 text-yellow-400 flex-shrink-0 mt-1"></i>
+                <div>
+                  <h4 class="text-white font-bold text-lg">Inovação</h4>
+                  <p class="text-gray-400 text-sm">Incorporamos as melhores práticas e tecnologias</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <i data-feather="check-circle" class="h-6 w-6 text-yellow-400 flex-shrink-0 mt-1"></i>
+                <div>
+                  <h4 class="text-white font-bold text-lg">Segurança</h4>
+                  <p class="text-gray-400 text-sm">Cumprimento rigoroso das normas técnicas</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -452,7 +539,8 @@
           <h4 class="text-lg font-semibold text-white">Links Rápidos</h4>
           <ul class="space-y-2">
             <li><a href="#servicos" class="text-gray-400 hover:text-yellow-400 transition">Serviços</a></li>
-            <li><a href="/galeria/" class="text-gray-400 hover:text-yellow-400 transition">Galeria</a></li>
+            <li><a href="#historia" class="text-gray-400 hover:text-yellow-400 transition">Nossa História</a></li>
+            <li><a href="#diagnostico-ia" class="text-gray-400 hover:text-yellow-400 transition">Diagnóstico IA</a></li>
             <li><a href="#contato" class="text-gray-400 hover:text-yellow-400 transition">Contato</a></li>
             <li> <a href="/criartabela" title="Criar tabelas" class="text-gray-300 hover:text-yellow-400 transition-colors duration-300 font-medium">Criar Tabelas</a></li>
           </ul>
